@@ -145,7 +145,7 @@ export default function Help() {
                 <Mail className="w-5 h-5 text-primary" />
                 <div>
                   <p className="font-semibold">אימייל</p>
-                  <p className="text-muted-foreground">support@shave.li</p>
+                  <p className="text-muted-foreground">support@shaveli.co.il</p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
