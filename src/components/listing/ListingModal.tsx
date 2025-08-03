@@ -62,9 +62,8 @@ export const ListingModal = ({
     if (api) {
       api.scrollPrev()
     } else {
-      setCurrentImageIndex((prev) => 
-        prev === 0 ? listing.images.length - 1 : prev - 1
-      )
+      const newIndex = currentImageIndex === 0 ? listing.images.length - 1 : currentImageIndex - 1
+      setCurrentImageIndex(newIndex)
     }
   }
 
@@ -72,9 +71,16 @@ export const ListingModal = ({
     if (api) {
       api.scrollNext()
     } else {
-      setCurrentImageIndex((prev) => 
-        prev === listing.images.length - 1 ? 0 : prev + 1
-      )
+      const newIndex = currentImageIndex === listing.images.length - 1 ? 0 : currentImageIndex + 1
+      setCurrentImageIndex(newIndex)
+    }
+  }
+
+  const scrollTo = (index: number) => {
+    if (api) {
+      api.scrollTo(index)
+    } else {
+      setCurrentImageIndex(index)
     }
   }
 
@@ -91,6 +97,11 @@ export const ListingModal = ({
 
     return () => api.off("select", onSelect)
   }, [api])
+
+  // Reset image index when listing changes
+  React.useEffect(() => {
+    setCurrentImageIndex(0)
+  }, [listing?.id])
 
   if (!listing) return null
 
@@ -177,7 +188,7 @@ export const ListingModal = ({
                         {listing.images.map((_, index) => (
                           <button
                             key={index}
-                            onClick={() => api?.scrollTo(index)}
+                            onClick={() => scrollTo(index)}
                             className={`w-2 h-2 rounded-full transition-all duration-200 ${
                               currentImageIndex === index 
                                 ? 'bg-white scale-125' 
@@ -218,8 +229,7 @@ export const ListingModal = ({
                   <button
                     key={index}
                     onClick={() => {
-                      setCurrentImageIndex(index)
-                      api?.scrollTo(index)
+                      scrollTo(index)
                     }}
                     className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all duration-200 hover:scale-105 ${
                       currentImageIndex === index 
