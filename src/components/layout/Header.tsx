@@ -25,10 +25,13 @@ export const Header = () => {
           {/* Logo */}
           <div className="flex items-center gap-2">
             <Link to="/" className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">ש</span>
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center shadow-lg">
+                <span className="text-white font-bold text-xl">ש</span>
               </div>
-              <span className="text-2xl font-bold text-primary hebrew-text">שווה</span>
+              <div className="flex flex-col">
+                <span className="text-xl font-bold text-primary hebrew-text leading-none">{direction === 'rtl' ? 'שווה לי' : 'Shaveli'}</span>
+                <span className="text-xs text-muted-foreground">{direction === 'rtl' ? 'השוק שלכם' : 'Your Marketplace'}</span>
+              </div>
             </Link>
           </div>
 
@@ -109,19 +112,20 @@ export const Header = () => {
             <SheetContent side="right" className="w-[300px] hebrew-text">
               <div className="flex flex-col gap-4 mt-6">
                 <div className="relative">
-                  <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                  <Search className={`absolute ${direction === 'rtl' ? 'right-3' : 'left-3'} top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4`} />
                   <Input
-                    placeholder="חיפוש..."
-                    className="w-full pr-10"
-                    dir="rtl"
+                    placeholder={t('hero.search')}
+                    className={`w-full ${direction === 'rtl' ? 'pr-10' : 'pl-10'}`}
+                    dir={direction}
                   />
                 </div>
                 
                 <div className="flex flex-col gap-2">
+                  <LanguageSwitcher />
                   <Button variant="ghost" className="justify-start" asChild>
                     <Link to="/browse">
                       <Search className="w-4 h-4 ml-2" />
-                      דפדוף מודעות
+                      {t('nav.browse')}
                     </Link>
                   </Button>
                   {user ? (
@@ -132,25 +136,25 @@ export const Header = () => {
                       >
                         <Link to="/post-ad">
                           <Plus className="w-4 h-4 ml-2" />
-                          פרסום מודעה
+                          {t('nav.post')}
                         </Link>
                       </Button>
                       <Button variant="ghost" className="justify-start" asChild>
                         <Link to="/messages">
                           <MessageCircle className="w-4 h-4 ml-2" />
-                          הודעות
+                          {t('nav.messages')}
                         </Link>
                       </Button>
                       <Button variant="ghost" className="justify-start" asChild>
                         <Link to="/favorites">
                           <Heart className="w-4 h-4 ml-2" />
-                          מועדפים
+                          {t('nav.favorites')}
                         </Link>
                       </Button>
                       <Button variant="ghost" className="justify-start" asChild>
                         <Link to="/dashboard">
                           <User className="w-4 h-4 ml-2" />
-                          הדשבורד שלי
+                          {t('nav.dashboard')}
                         </Link>
                       </Button>
                     </>
@@ -161,7 +165,7 @@ export const Header = () => {
                       onClick={() => setAuthModalOpen(true)}
                     >
                       <User className="w-4 h-4 ml-2" />
-                      התחברות
+                      {t('nav.login')}
                     </Button>
                   )}
                 </div>

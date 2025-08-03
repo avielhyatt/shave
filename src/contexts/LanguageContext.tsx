@@ -105,7 +105,7 @@ const translations = {
     'auth.backHome': 'חזור לעמוד הבית',
     
     // Hero Section
-    'hero.title': 'שווה - השוק הישראלי שלכם',
+    'hero.title': 'שווה לי - השוק הישראלי שלכם',
     'hero.subtitle': 'קנו, מכרו והשכירו בקלות ובביטחון',
     'hero.search': 'מה אתם מחפשים היום?',
     'hero.searchButton': 'חיפוש',
@@ -239,7 +239,7 @@ const translations = {
     'auth.backHome': 'Back to Home',
     
     // Hero Section
-    'hero.title': 'Shave - Your Israeli Marketplace',
+    'hero.title': 'Shaveli - Your Israeli Marketplace',
     'hero.subtitle': 'Buy, sell and rent with ease and confidence',
     'hero.search': 'What are you looking for today?',
     'hero.searchButton': 'Search',
