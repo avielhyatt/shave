@@ -1,5 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 import { 
   Package, 
   Home, 
@@ -16,8 +17,8 @@ import {
 
 const categories = [
   {
-    id: "second-hand",
-    name: "יד שנייה",
+    id: "electronics",
+    name: "אלקטרוניקה",
     description: "מוצרי אלקטרוניקה, רהיטים וכל מה שצריך",
     icon: Package,
     count: "15,234",
@@ -30,7 +31,7 @@ const categories = [
   },
   {
     id: "real-estate",
-    name: "נדל\"ן",
+    name: "נדל״ן",
     description: "דירות ובתים למכירה ולהשכרה",
     icon: Home,
     count: "8,932",
@@ -89,10 +90,10 @@ export const CategoryGrid = () => {
           {categories.map((category) => {
             const Icon = category.icon;
             return (
-              <Card 
-                key={category.id} 
-                className="group hover:shadow-lg transition-all duration-300 cursor-pointer hover:-translate-y-1"
-              >
+              <Link key={category.id} to={`/browse?category=${category.id}`}>
+                <Card 
+                  className="group hover:shadow-lg transition-all duration-300 cursor-pointer hover:-translate-y-1"
+                >
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4 mb-4">
                     <div className={`w-12 h-12 rounded-lg ${category.color} flex items-center justify-center`}>
@@ -131,6 +132,7 @@ export const CategoryGrid = () => {
                   )}
                 </CardContent>
               </Card>
+              </Link>
             );
           })}
         </div>

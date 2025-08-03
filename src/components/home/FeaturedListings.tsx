@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Heart, MapPin, Clock, Star } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const featuredListings = [
   {
@@ -103,8 +104,8 @@ export const FeaturedListings = () => {
               המודעות הכי טובות והכי עדכניות שלנו
             </p>
           </div>
-          <Button variant="outline" className="hebrew-text">
-            צפו בכל המודעות
+          <Button variant="outline" className="hebrew-text" asChild>
+            <Link to="/browse">צפו בכל המודעות</Link>
           </Button>
         </div>
 
@@ -121,7 +122,7 @@ export const FeaturedListings = () => {
                   className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 {listing.featured && (
-                  <Badge className="absolute top-3 right-3 bg-shave-orange text-white hebrew-text">
+                  <Badge className="absolute top-3 right-3 bg-shave-primary text-white hebrew-text">
                     מובחר
                   </Badge>
                 )}

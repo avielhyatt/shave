@@ -2,8 +2,17 @@ import { Search, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
+import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export const HeroSection = () => {
+  const [searchQuery, setSearchQuery] = useState("")
+  const navigate = useNavigate()
+
+  const handleSearch = () => {
+    navigate(`/browse?q=${encodeURIComponent(searchQuery)}`)
+  }
+
   const stats = [
     { number: "50,000+", label: "מודעות פעילות" },
     { number: "100,000+", label: "משתמשים רשומים" },
@@ -39,9 +48,12 @@ export const HeroSection = () => {
                     placeholder="מה אתם מחפשים היום?"
                     className="w-full pr-12 h-12 text-lg hebrew-text"
                     dir="rtl"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                   />
                 </div>
-                <Button size="lg" className="px-8 hebrew-text">
+                <Button size="lg" className="px-8 hebrew-text" onClick={handleSearch}>
                   חיפוש
                 </Button>
               </div>
@@ -50,9 +62,11 @@ export const HeroSection = () => {
 
           {/* CTA Button */}
           <div className="mb-12">
-            <Button size="lg" variant="secondary" className="px-8 py-6 text-lg hebrew-text">
-              <Plus className="w-5 h-5 ml-2" />
-              פרסמו מודעה בחינם
+            <Button size="lg" variant="secondary" className="px-8 py-6 text-lg hebrew-text" asChild>
+              <Link to="/post-ad">
+                <Plus className="w-5 h-5 ml-2" />
+                פרסמו מודעה בחינם
+              </Link>
             </Button>
           </div>
 

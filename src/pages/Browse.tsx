@@ -9,7 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Header } from "@/components/layout/Header"
 import { Footer } from "@/components/layout/Footer"
 import { Search, Filter, MapPin, Heart, Phone, Mail, Eye } from "lucide-react"
-import { Link } from "react-router-dom"
+import { Link, useSearchParams } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
 
 interface Listing {
@@ -52,6 +52,7 @@ const israeliCities = [
 
 export default function Browse() {
   const { user } = useAuth()
+  const [searchParams] = useSearchParams()
   const [listings, setListings] = useState<Listing[]>([])
   const [favorites, setFavorites] = useState<string[]>([])
   const [filteredListings, setFilteredListings] = useState<Listing[]>([])
@@ -68,7 +69,18 @@ export default function Browse() {
     if (user) {
       fetchUserFavorites()
     }
-  }, [user])
+    
+    // Set initial filters from URL
+    const categoryParam = searchParams.get('category')
+    const queryParam = searchParams.get('q')
+    
+    if (categoryParam) {
+      setSelectedCategory(categoryParam)
+    }
+    if (queryParam) {
+      setSearchQuery(queryParam)
+    }
+  }, [user, searchParams])
 
   useEffect(() => {
     filterListings()

@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import { 
   Package, 
   Home, 
@@ -15,8 +16,8 @@ import {
 
 const categories = [
   {
-    id: "second-hand",
-    name: "יד שנייה",
+    id: "electronics",
+    name: "אלקטרוניקה",
     icon: Package,
     subcategories: [
       { id: "electronics", name: "אלקטרוניקה", icon: Smartphone },
@@ -26,7 +27,7 @@ const categories = [
   },
   {
     id: "real-estate",
-    name: "נדל\"ן",
+    name: "נדל״ן",
     icon: Home,
     subcategories: [
       { id: "apartments-for-sale", name: "דירות למכירה", icon: Building },
@@ -61,8 +62,8 @@ export const CategoryNavigation = () => {
     <div className="border-b bg-card">
       <div className="container mx-auto px-4">
         <div className="flex items-center gap-1 py-2 overflow-x-auto">
-          <Button variant="ghost" size="sm" className="hebrew-text whitespace-nowrap">
-            כל הקטגוריות
+          <Button variant="ghost" size="sm" className="hebrew-text whitespace-nowrap" asChild>
+            <Link to="/browse">כל הקטגוריות</Link>
           </Button>
           {categories.map((category) => {
             const Icon = category.icon;
@@ -72,9 +73,12 @@ export const CategoryNavigation = () => {
                 variant="ghost"
                 size="sm"
                 className="hebrew-text whitespace-nowrap"
+                asChild
               >
-                <Icon className="w-4 h-4 ml-2" />
-                {category.name}
+                <Link to={`/browse?category=${category.id}`}>
+                  <Icon className="w-4 h-4 ml-2" />
+                  {category.name}
+                </Link>
               </Button>
             );
           })}
