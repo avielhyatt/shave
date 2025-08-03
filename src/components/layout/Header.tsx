@@ -14,6 +14,9 @@ export const Header = () => {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-center py-1 text-sm hebrew-text">
+        🔥 חדש! פרסמו מודעות בחינם וקבלו חשיפה מקסימלית 🔥
+      </div>
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
@@ -48,7 +51,11 @@ export const Header = () => {
             </Button>
             {user ? (
               <>
-                <Button variant="ghost" size="sm" className="hebrew-text" asChild>
+                <Button 
+                  className="hebrew-text bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-0" 
+                  size="sm" 
+                  asChild
+                >
                   <Link to="/post-ad">
                     <Plus className="w-4 h-4 ml-2" />
                     פרסום מודעה
@@ -116,7 +123,10 @@ export const Header = () => {
                   </Button>
                   {user ? (
                     <>
-                      <Button variant="ghost" className="justify-start" asChild>
+                      <Button 
+                        className="justify-start hebrew-text bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-0" 
+                        asChild
+                      >
                         <Link to="/post-ad">
                           <Plus className="w-4 h-4 ml-2" />
                           פרסום מודעה

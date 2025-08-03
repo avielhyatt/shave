@@ -46,13 +46,10 @@ export default function PostAd() {
   const [imageUrls, setImageUrls] = useState<string[]>([])
 
   useEffect(() => {
-    if (!user) {
-      navigate('/')
-      return
+    // Pre-fill email from user profile if logged in
+    if (user) {
+      setContactEmail(user.email)
     }
-    
-    // Pre-fill email from user profile
-    setContactEmail(user.email)
   }, [user, navigate])
 
   const selectedCategory = categories.find(cat => cat.value === category)
@@ -154,7 +151,34 @@ export default function PostAd() {
     }
   }
 
-  if (!user) return null
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-background rtl">
+        <Header />
+        
+        <main className="container mx-auto px-4 py-8">
+          <div className="max-w-2xl mx-auto text-center">
+            <h1 className="text-3xl font-bold mb-4 hebrew-text">פרסום מודעה</h1>
+            <p className="text-muted-foreground mb-8 hebrew-text">
+              כדי לפרסם מודעה באתר, עליך להתחבר לחשבון או להירשם
+            </p>
+            <div className="bg-card p-8 rounded-lg shadow-sm">
+              <h2 className="text-xl font-semibold mb-4 hebrew-text">יתרונות הרישום לשווה</h2>
+              <ul className="text-right space-y-3 mb-6 hebrew-text">
+                <li>✓ פרסום מודעות ללא הגבלה</li>
+                <li>✓ ניהול מודעות מהדשבורד האישי</li>
+                <li>✓ מערכת הודעות מובנית</li>
+                <li>✓ שמירת מודעות מועדפות</li>
+                <li>✓ סטטיסטיקות ונתונים על המודעות</li>
+              </ul>
+            </div>
+          </div>
+        </main>
+
+        <Footer />
+      </div>
+    )
+  }
 
   return (
     <div className="min-h-screen bg-background rtl">

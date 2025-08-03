@@ -62,7 +62,11 @@ export const HeroSection = () => {
 
           {/* CTA Button */}
           <div className="mb-12">
-            <Button size="lg" variant="secondary" className="px-8 py-6 text-lg hebrew-text" asChild>
+            <Button 
+              size="lg" 
+              className="px-8 py-6 text-lg hebrew-text bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-0 shadow-lg"
+              asChild
+            >
               <Link to="/post-ad">
                 <Plus className="w-5 h-5 ml-2" />
                 פרסמו מודעה בחינם

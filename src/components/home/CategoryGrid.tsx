@@ -86,7 +86,28 @@ export const CategoryGrid = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+          {categories.slice(0, 6).map((category) => {
+            const Icon = category.icon;
+            return (
+              <Link key={category.id} to={`/browse?category=${category.id}`}>
+                <Card className="group hover:shadow-lg transition-all duration-300 cursor-pointer hover:-translate-y-1 p-6 text-center">
+                  <div className="flex flex-col items-center">
+                    <div className={`w-16 h-16 rounded-full ${category.color} flex items-center justify-center mb-3`}>
+                      <Icon className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-lg font-semibold hebrew-text mb-1">{category.name}</h3>
+                    <Badge variant="secondary" className="hebrew-text text-xs">
+                      {category.count}
+                    </Badge>
+                  </div>
+                </Card>
+              </Link>
+            );
+          })}
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {categories.map((category) => {
             const Icon = category.icon;
             return (
@@ -114,7 +135,7 @@ export const CategoryGrid = () => {
 
                   {category.subcategories.length > 0 && (
                     <div className="space-y-2">
-                      {category.subcategories.map((sub, index) => {
+                      {category.subcategories.slice(0, 3).map((sub, index) => {
                         const SubIcon = sub.icon;
                         return (
                           <div key={index} className="flex items-center justify-between text-sm">
