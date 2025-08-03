@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { supabase } from "@/integrations/supabase/client"
 import { useAuth } from "@/contexts/AuthContext"
+import { useLanguage } from "@/contexts/LanguageContext"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
@@ -35,6 +36,7 @@ const categories = [
 
 export default function Favorites() {
   const { user } = useAuth()
+  const { t, direction } = useLanguage()
   const [favorites, setFavorites] = useState<Listing[]>([])
   const [loading, setLoading] = useState(true)
   const { toast } = useToast()
@@ -77,8 +79,8 @@ export default function Favorites() {
     } catch (error) {
       console.error('Error fetching favorites:', error)
       toast({
-        title: "שגיאה בטעינת המועדפים",
-        description: "נסה לרענן את הדף",
+        title: t('favorites.loadError'),
+        description: t('browse.refreshPage'),
         variant: "destructive"
       })
     } finally {
@@ -98,13 +100,13 @@ export default function Favorites() {
 
       setFavorites(favorites.filter(listing => listing.id !== listingId))
       toast({
-        title: "הוסר מהמועדפים",
+        title: t('favorites.removeSuccess'),
         description: "המודעה הוסרה מרשימת המועדפים שלך"
       })
     } catch (error) {
       console.error('Error removing favorite:', error)
       toast({
-        title: "שגיאה בהסרת המועדף",
+        title: t('favorites.removeError'),
         description: "נסה שוב",
         variant: "destructive"
       })
@@ -113,13 +115,13 @@ export default function Favorites() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-background rtl">
+      <div className={`min-h-screen bg-background ${direction === 'rtl' ? 'rtl' : ''}`} dir={direction}>
         <Header />
         <main className="container mx-auto px-4 py-8">
           <div className="text-center">
-            <h1 className="text-2xl font-bold mb-4">יש להתחבר כדי לצפות במועדפים</h1>
+            <h1 className="text-2xl font-bold mb-4" dir={direction}>{t('auth.loginRequired')}</h1>
             <Button asChild>
-              <Link to="/">חזור לעמוד הבית</Link>
+              <Link to="/" dir={direction}>{t('auth.backHome')}</Link>
             </Button>
           </div>
         </main>
@@ -129,18 +131,18 @@ export default function Favorites() {
   }
 
   return (
-    <div className="min-h-screen bg-background rtl">
+    <div className={`min-h-screen bg-background ${direction === 'rtl' ? 'rtl' : ''}`} dir={direction}>
       <Header />
       
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-8">
-            <h1 className="text-3xl font-bold hebrew-text flex items-center gap-2">
+            <h1 className="text-3xl font-bold flex items-center gap-2" dir={direction}>
               <Heart className="w-8 h-8 text-red-500" />
-              המועדפים שלי
+              {t('favorites.title')}
             </h1>
             <Button asChild>
-              <Link to="/browse">חזור לדפדוף</Link>
+              <Link to="/browse" dir={direction}>{t('favorites.backToBrowse')}</Link>
             </Button>
           </div>
 
@@ -163,19 +165,19 @@ export default function Favorites() {
             <div className="text-center py-12">
               <div className="max-w-md mx-auto">
                 <Heart className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">אין עדיין מועדפים</h3>
-                <p className="text-muted-foreground mb-4">
-                  התחל לשמור מודעות שמעניינות אותך
+                <h3 className="text-xl font-semibold mb-2" dir={direction}>{t('favorites.noFavorites')}</h3>
+                <p className="text-muted-foreground mb-4" dir={direction}>
+                  {t('favorites.startSaving')}
                 </p>
                 <Button asChild>
-                  <Link to="/browse">חפש מודעות</Link>
+                  <Link to="/browse" dir={direction}>{t('favorites.searchAds')}</Link>
                 </Button>
               </div>
             </div>
           ) : (
             <>
-              <div className="mb-4 text-muted-foreground">
-                נמצאו {favorites.length} מודעות מועדפות
+              <div className="mb-4 text-muted-foreground" dir={direction}>
+                {t('favorites.found')} {favorites.length} {t('favorites.favoriteAds')}
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {favorites.map((listing) => (
@@ -243,15 +245,16 @@ export default function Favorites() {
                     </CardContent>
 
                     <CardFooter className="p-4 pt-0 flex gap-2">
-                      <Button className="flex-1">
-                        <Phone className="w-4 h-4 ml-2" />
-                        צור קשר
+                      <Button className="flex-1" dir={direction}>
+                        <Phone className={`w-4 h-4 ${direction === 'rtl' ? 'ml-2' : 'mr-2'}`} />
+                        {t('favorites.contact')}
                       </Button>
                       <Button 
                         variant="outline" 
                         onClick={() => removeFavorite(listing.id)}
+                        dir={direction}
                       >
-                        הסר מועדף
+                        {t('favorites.removeFavorite')}
                       </Button>
                     </CardFooter>
                   </Card>

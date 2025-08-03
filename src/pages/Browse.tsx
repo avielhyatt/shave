@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useAuth } from "@/contexts/AuthContext"
+import { useLanguage } from "@/contexts/LanguageContext"
 import { supabase } from "@/integrations/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -52,6 +53,7 @@ const israeliCities = [
 
 export default function Browse() {
   const { user } = useAuth()
+  const { t, direction } = useLanguage()
   const [searchParams] = useSearchParams()
   const [listings, setListings] = useState<Listing[]>([])
   const [favorites, setFavorites] = useState<string[]>([])
@@ -101,8 +103,8 @@ export default function Browse() {
     } catch (error) {
       console.error('Error fetching listings:', error)
       toast({
-        title: "שגיאה בטעינת המודעות",
-        description: "נסה לרענן את הדף",
+        title: t('browse.loadError'),
+        description: t('browse.refreshPage'),
         variant: "destructive"
       })
     } finally {
@@ -129,8 +131,8 @@ export default function Browse() {
   const toggleFavorite = async (listingId: string) => {
     if (!user) {
       toast({
-        title: "נדרשת התחברות",
-        description: "יש להתחבר כדי לשמור מועדפים",
+        title: t('browse.loginRequired'),
+        description: t('browse.loginToSave'),
         variant: "destructive"
       })
       return
@@ -149,7 +151,7 @@ export default function Browse() {
         if (error) throw error
         setFavorites(favorites.filter(id => id !== listingId))
         toast({
-          title: "הוסר מהמועדפים",
+          title: t('browse.removedFromFavorites'),
           description: "המודעה הוסרה מרשימת המועדפים שלך"
         })
       } else {
@@ -163,15 +165,15 @@ export default function Browse() {
         if (error) throw error
         setFavorites([...favorites, listingId])
         toast({
-          title: "נוסף למועדפים",
+          title: t('browse.addedToFavorites'),
           description: "המודעה נשמרה ברשימת המועדפים שלך"
         })
       }
     } catch (error) {
       console.error('Error toggling favorite:', error)
       toast({
-        title: "שגיאה",
-        description: "לא הצלחנו לעדכן את המועדפים",
+        title: t('browse.error'),
+        description: t('browse.cantUpdateFavorites'),
         variant: "destructive"
       })
     }
@@ -235,15 +237,15 @@ export default function Browse() {
       window.open(`mailto:${listing.contact_email}`, '_self')
     } else {
       toast({
-        title: "אין פרטי יצירת קשר",
-        description: "המוכר לא השאיר פרטי יצירת קשר",
+        title: t('browse.noContactInfo'),
+        description: t('browse.sellerNoContact'),
         variant: "destructive"
       })
     }
   }
 
   return (
-    <div className="min-h-screen bg-background rtl">
+    <div className={`min-h-screen bg-background ${direction === 'rtl' ? 'rtl' : ''}`} dir={direction}>
       <Header />
       
       <main className="container mx-auto px-4 py-8">
@@ -253,13 +255,13 @@ export default function Browse() {
             <div className="space-y-4">
               {/* Search Bar */}
               <div className="relative">
-                <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+                <Search className={`absolute ${direction === 'rtl' ? 'right-3' : 'left-3'} top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4`} />
                 <Input
-                  placeholder="חפש מודעות..."
+                  placeholder={t('browse.searchAds')}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pr-10"
-                  dir="rtl"
+                  className={direction === 'rtl' ? 'pr-10' : 'pl-10'}
+                  dir={direction}
                 />
               </div>
 
@@ -292,30 +294,30 @@ export default function Browse() {
                 </Select>
 
                 <Input
-                  placeholder="מחיר מינימלי"
+                  placeholder={t('browse.minPrice')}
                   type="number"
                   value={priceRange.min}
                   onChange={(e) => setPriceRange(prev => ({ ...prev, min: e.target.value }))}
-                  dir="rtl"
+                  dir={direction}
                 />
 
                 <Input
-                  placeholder="מחיר מקסימלי"
+                  placeholder={t('browse.maxPrice')}
                   type="number"
                   value={priceRange.max}
                   onChange={(e) => setPriceRange(prev => ({ ...prev, max: e.target.value }))}
-                  dir="rtl"
+                  dir={direction}
                 />
 
                 <Select value={sortBy} onValueChange={setSortBy}>
                   <SelectTrigger>
-                    <SelectValue placeholder="מיון" />
+                    <SelectValue placeholder={t('browse.sort')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="newest">החדשות ביותר</SelectItem>
-                    <SelectItem value="oldest">הישנות ביותר</SelectItem>
-                    <SelectItem value="price-low">מחיר נמוך לגבוה</SelectItem>
-                    <SelectItem value="price-high">מחיר גבוה לנמוך</SelectItem>
+                    <SelectItem value="newest">{t('browse.newest')}</SelectItem>
+                    <SelectItem value="oldest">{t('browse.oldest')}</SelectItem>
+                    <SelectItem value="price-low">{t('browse.priceLowHigh')}</SelectItem>
+                    <SelectItem value="price-high">{t('browse.priceHighLow')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -324,11 +326,11 @@ export default function Browse() {
 
           {/* Results Header */}
           <div className="flex items-center justify-between mb-6">
-            <h1 className="text-2xl font-bold hebrew-text">
-              נמצאו {filteredListings.length} מודעות
+            <h1 className="text-2xl font-bold" dir={direction}>
+              {t('browse.found')} {filteredListings.length} {t('browse.ads')}
             </h1>
             <Button asChild>
-              <Link to="/post-ad">פרסם מודעה חדשה</Link>
+              <Link to="/post-ad" dir={direction}>{t('browse.postNewAd')}</Link>
             </Button>
           </div>
 
@@ -352,9 +354,9 @@ export default function Browse() {
             <div className="text-center py-12">
               <div className="max-w-md mx-auto">
                 <Search className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-xl font-semibold mb-2">לא נמצאו תוצאות</h3>
-                <p className="text-muted-foreground mb-4">
-                  נסה לשנות את הפילטרים או החיפוש
+                <h3 className="text-xl font-semibold mb-2" dir={direction}>{t('browse.noResults')}</h3>
+                <p className="text-muted-foreground mb-4" dir={direction}>
+                  {t('browse.changeFilters')}
                 </p>
                 <Button 
                   variant="outline" 
@@ -364,8 +366,9 @@ export default function Browse() {
                     setSelectedLocation("all")
                     setPriceRange({ min: "", max: "" })
                   }}
+                  dir={direction}
                 >
-                  נקה פילטרים
+                  {t('browse.clearFilters')}
                 </Button>
               </div>
             </div>
@@ -426,9 +429,10 @@ export default function Browse() {
                     <Button 
                       className="flex-1" 
                       onClick={() => handleContactSeller(listing)}
+                      dir={direction}
                     >
-                      <Phone className="w-4 h-4 ml-2" />
-                      צור קשר
+                      <Phone className={`w-4 h-4 ${direction === 'rtl' ? 'ml-2' : 'mr-2'}`} />
+                      {t('browse.contact')}
                     </Button>
                     <Button 
                       variant="outline" 

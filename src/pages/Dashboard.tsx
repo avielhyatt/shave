@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { useAuth } from "@/contexts/AuthContext"
+import { useLanguage } from "@/contexts/LanguageContext"
 import { supabase } from "@/integrations/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -25,6 +26,7 @@ interface Listing {
 
 export default function Dashboard() {
   const { user, signOut } = useAuth()
+  const { t, direction } = useLanguage()
   const [listings, setListings] = useState<Listing[]>([])
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
@@ -66,12 +68,12 @@ export default function Dashboard() {
 
       setListings(listings.filter(listing => listing.id !== listingId))
       toast({
-        title: "המודעה נמחקה בהצלחה",
+        title: t('dashboard.deleteSuccess'),
         description: "המודעה הוסרה מהאתר",
       })
     } catch (error) {
       toast({
-        title: "שגיאה במחיקת המודעה",
+        title: t('dashboard.deleteError'),
         description: "נסה שוב מאוחר יותר",
         variant: "destructive"
       })
@@ -86,57 +88,57 @@ export default function Dashboard() {
   if (!user) return null
 
   return (
-    <div className="min-h-screen bg-background rtl">
+    <div className={`min-h-screen bg-background ${direction === 'rtl' ? 'rtl' : ''}`} dir={direction}>
       <Header />
       
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-bold hebrew-text">הדשבורד שלי</h1>
-              <p className="text-muted-foreground mt-2">
-                ברוך הבא {user.user_metadata?.full_name || user.email}
+              <h1 className="text-3xl font-bold" dir={direction}>{t('dashboard.title')}</h1>
+              <p className="text-muted-foreground mt-2" dir={direction}>
+                {t('dashboard.welcome')} {user.user_metadata?.full_name || user.email}
               </p>
             </div>
             <div className="flex gap-2">
               <Button asChild>
-                <Link to="/post-ad">
-                  <Plus className="w-4 h-4 ml-2" />
-                  פרסם מודעה חדשה
+                <Link to="/post-ad" dir={direction}>
+                  <Plus className={`w-4 h-4 ${direction === 'rtl' ? 'ml-2' : 'mr-2'}`} />
+                  {t('dashboard.postNew')}
                 </Link>
               </Button>
-              <Button variant="outline" onClick={handleSignOut}>
-                התנתק
+              <Button variant="outline" onClick={handleSignOut} dir={direction}>
+                {t('dashboard.signOut')}
               </Button>
             </div>
           </div>
 
           <Tabs defaultValue="listings" className="w-full">
             <TabsList className="grid grid-cols-4 w-full max-w-md">
-              <TabsTrigger value="listings">המודעות שלי</TabsTrigger>
-              <TabsTrigger value="favorites">מועדפים</TabsTrigger>
-              <TabsTrigger value="messages">הודעות</TabsTrigger>
-              <TabsTrigger value="settings">הגדרות</TabsTrigger>
+              <TabsTrigger value="listings" dir={direction}>{t('dashboard.myListings')}</TabsTrigger>
+              <TabsTrigger value="favorites" dir={direction}>{t('dashboard.favorites')}</TabsTrigger>
+              <TabsTrigger value="messages" dir={direction}>{t('dashboard.messages')}</TabsTrigger>
+              <TabsTrigger value="settings" dir={direction}>{t('dashboard.settings')}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="listings" className="mt-6">
               <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+                  <CardTitle className="flex items-center gap-2" dir={direction}>
                     <Edit className="w-5 h-5" />
-                    המודעות שלי ({listings.length})
+                    {t('dashboard.myListings')} ({listings.length})
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   {loading ? (
-                    <div className="text-center py-8">טוען מודעות...</div>
+                    <div className="text-center py-8" dir={direction}>{t('dashboard.loading')}</div>
                   ) : listings.length === 0 ? (
                     <div className="text-center py-8">
-                      <p className="text-muted-foreground mb-4">עדיין לא פרסמת מודעות</p>
+                      <p className="text-muted-foreground mb-4" dir={direction}>{t('dashboard.noListings')}</p>
                       <Button asChild>
-                        <Link to="/post-ad">
-                          <Plus className="w-4 h-4 ml-2" />
-                          פרסם את המודעה הראשונה שלך
+                        <Link to="/post-ad" dir={direction}>
+                          <Plus className={`w-4 h-4 ${direction === 'rtl' ? 'ml-2' : 'mr-2'}`} />
+                          {t('dashboard.postFirst')}
                         </Link>
                       </Button>
                     </div>
@@ -174,15 +176,15 @@ export default function Dashboard() {
                               <p className="text-lg font-bold text-primary">
                                 ₪{listing.price.toLocaleString()}
                               </p>
-                              <div className="flex items-center gap-2">
-                                <Badge variant="secondary">{listing.category}</Badge>
-                                {listing.is_featured && (
-                                  <Badge className="bg-yellow-500">מומלץ</Badge>
-                                )}
-                                {listing.is_sold && (
-                                  <Badge variant="destructive">נמכר</Badge>
-                                )}
-                              </div>
+                               <div className="flex items-center gap-2">
+                                 <Badge variant="secondary">{listing.category}</Badge>
+                                 {listing.is_featured && (
+                                   <Badge className="bg-yellow-500" dir={direction}>{t('dashboard.featured')}</Badge>
+                                 )}
+                                 {listing.is_sold && (
+                                   <Badge variant="destructive" dir={direction}>{t('dashboard.sold')}</Badge>
+                                 )}
+                               </div>
                               <p className="text-sm text-muted-foreground">{listing.location}</p>
                               <p className="text-xs text-muted-foreground">
                                 {new Date(listing.created_at).toLocaleDateString('he-IL')}
@@ -200,14 +202,14 @@ export default function Dashboard() {
             <TabsContent value="favorites" className="mt-6">
               <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+                  <CardTitle className="flex items-center gap-2" dir={direction}>
                     <Heart className="w-5 h-5" />
-                    מודעות מועדפות
+                    {t('dashboard.favorites')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="text-center py-8">
-                    <p className="text-muted-foreground">עדיין לא שמרת מודעות מועדפות</p>
+                    <p className="text-muted-foreground" dir={direction}>{t('favorites.noFavorites')}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -216,14 +218,14 @@ export default function Dashboard() {
             <TabsContent value="messages" className="mt-6">
               <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+                  <CardTitle className="flex items-center gap-2" dir={direction}>
                     <MessageCircle className="w-5 h-5" />
-                    הודעות
+                    {t('dashboard.messages')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="text-center py-8">
-                    <p className="text-muted-foreground">אין הודעות חדשות</p>
+                    <p className="text-muted-foreground" dir={direction}>{t('messages.noConversations')}</p>
                   </div>
                 </CardContent>
               </Card>
@@ -232,22 +234,22 @@ export default function Dashboard() {
             <TabsContent value="settings" className="mt-6">
               <Card>
                 <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+                  <CardTitle className="flex items-center gap-2" dir={direction}>
                     <Settings className="w-5 h-5" />
-                    הגדרות חשבון
+                    {t('dashboard.settings')}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <h3 className="font-semibold mb-2">פרטי חשבון</h3>
-                    <p className="text-sm text-muted-foreground">אימייל: {user.email}</p>
-                    <p className="text-sm text-muted-foreground">
-                      הצטרף: {new Date(user.created_at).toLocaleDateString('he-IL')}
+                    <h3 className="font-semibold mb-2" dir={direction}>{t('dashboard.accountDetails')}</h3>
+                    <p className="text-sm text-muted-foreground" dir={direction}>{t('dashboard.email')}: {user.email}</p>
+                    <p className="text-sm text-muted-foreground" dir={direction}>
+                      {t('dashboard.joined')}: {new Date(user.created_at).toLocaleDateString(direction === 'rtl' ? 'he-IL' : 'en-US')}
                     </p>
                   </div>
                   <div className="pt-4 border-t">
-                    <Button variant="destructive" onClick={handleSignOut}>
-                      התנתק מהחשבון
+                    <Button variant="destructive" onClick={handleSignOut} dir={direction}>
+                      {t('dashboard.signOutAccount')}
                     </Button>
                   </div>
                 </CardContent>

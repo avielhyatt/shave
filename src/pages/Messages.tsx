@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { supabase } from "@/integrations/supabase/client"
 import { useAuth } from "@/contexts/AuthContext"
+import { useLanguage } from "@/contexts/LanguageContext"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -33,6 +34,7 @@ interface Conversation {
 
 export default function Messages() {
   const { user } = useAuth()
+  const { t, direction } = useLanguage()
   const [conversations, setConversations] = useState<Conversation[]>([])
   const [selectedConversation, setSelectedConversation] = useState<string | null>(null)
   const [messages, setMessages] = useState<Message[]>([])
@@ -93,8 +95,8 @@ export default function Messages() {
     } catch (error) {
       console.error('Error fetching conversations:', error)
       toast({
-        title: "שגיאה בטעינת השיחות",
-        description: "נסה לרענן את הדף",
+        title: t('messages.loadError'),
+        description: t('browse.refreshPage'),
         variant: "destructive"
       })
     } finally {
@@ -148,7 +150,7 @@ export default function Messages() {
     } catch (error) {
       console.error('Error sending message:', error)
       toast({
-        title: "שגיאה בשליחת ההודעה",
+        title: t('messages.sendError'),
         description: "נסה שוב",
         variant: "destructive"
       })
@@ -157,11 +159,11 @@ export default function Messages() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-background rtl">
+      <div className={`min-h-screen bg-background ${direction === 'rtl' ? 'rtl' : ''}`} dir={direction}>
         <Header />
         <main className="container mx-auto px-4 py-8">
           <div className="text-center">
-            <h1 className="text-2xl font-bold mb-4">יש להתחבר כדי לצפות בהודעות</h1>
+            <h1 className="text-2xl font-bold mb-4" dir={direction}>{t('auth.loginRequired')}</h1>
           </div>
         </main>
         <Footer />
@@ -170,29 +172,29 @@ export default function Messages() {
   }
 
   return (
-    <div className="min-h-screen bg-background rtl">
+    <div className={`min-h-screen bg-background ${direction === 'rtl' ? 'rtl' : ''}`} dir={direction}>
       <Header />
       
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-6xl mx-auto">
-          <h1 className="text-3xl font-bold mb-8 hebrew-text">הודעות</h1>
+          <h1 className="text-3xl font-bold mb-8" dir={direction}>{t('messages.title')}</h1>
           
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 h-[600px]">
             {/* Conversations List */}
             <Card className="lg:col-span-1">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2" dir={direction}>
                   <MessageCircle className="w-5 h-5" />
-                  שיחות ({conversations.length})
+                  {t('messages.conversations')} ({conversations.length})
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-0">
                 <ScrollArea className="h-[500px]">
                   {loading ? (
-                    <div className="p-4 text-center">טוען שיחות...</div>
+                    <div className="p-4 text-center" dir={direction}>{t('messages.loadingChats')}</div>
                   ) : conversations.length === 0 ? (
-                    <div className="p-4 text-center text-muted-foreground">
-                      אין עדיין שיחות
+                    <div className="p-4 text-center text-muted-foreground" dir={direction}>
+                      {t('messages.noConversations')}
                     </div>
                   ) : (
                     <div className="space-y-1">
@@ -221,11 +223,11 @@ export default function Messages() {
                                   </span>
                                 )}
                               </div>
-                              {conversation.listing_title && (
-                                <p className="text-xs text-muted-foreground truncate">
-                                  בנוגע ל: {conversation.listing_title}
-                                </p>
-                              )}
+                               {conversation.listing_title && (
+                                 <p className="text-xs text-muted-foreground truncate" dir={direction}>
+                                   {t('messages.about')}: {conversation.listing_title}
+                                 </p>
+                               )}
                               <p className="text-sm text-muted-foreground truncate">
                                 {conversation.last_message}
                               </p>
@@ -247,7 +249,7 @@ export default function Messages() {
               {selectedConversation ? (
                 <>
                   <CardHeader>
-                    <CardTitle>שיחה עם משתמש {selectedConversation.slice(0, 8)}</CardTitle>
+                    <CardTitle dir={direction}>{t('messages.chatWith')} {selectedConversation.slice(0, 8)}</CardTitle>
                   </CardHeader>
                   <CardContent className="p-0 flex flex-col h-[500px]">
                     <ScrollArea className="flex-1 p-4">
@@ -285,11 +287,11 @@ export default function Messages() {
                     <div className="p-4 border-t">
                       <div className="flex gap-2">
                         <Input
-                          placeholder="כתוב הודעה..."
+                          placeholder={t('messages.typeMessage')}
                           value={newMessage}
                           onChange={(e) => setNewMessage(e.target.value)}
                           onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                          dir="rtl"
+                          dir={direction}
                           className="flex-1"
                         />
                         <Button onClick={sendMessage} disabled={!newMessage.trim()}>
@@ -303,7 +305,7 @@ export default function Messages() {
                 <CardContent className="flex items-center justify-center h-[500px]">
                   <div className="text-center text-muted-foreground">
                     <MessageCircle className="w-12 h-12 mx-auto mb-4" />
-                    <p>בחר שיחה כדי להתחיל לצ'טט</p>
+                    <p dir={direction}>{t('messages.selectChat')}</p>
                   </div>
                 </CardContent>
               )}

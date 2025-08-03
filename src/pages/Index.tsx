@@ -6,9 +6,13 @@ import { PromotionsSection } from "@/components/home/PromotionsSection";
 import { FeaturedListings } from "@/components/home/FeaturedListings";
 import { Footer } from "@/components/layout/Footer";
 
+import { useLanguage } from "@/contexts/LanguageContext";
+
 const Index = () => {
+  const { direction } = useLanguage();
+  
   return (
-    <div className="min-h-screen bg-background rtl">
+    <div className={`min-h-screen bg-background ${direction === 'rtl' ? 'rtl' : ''}`} dir={direction}>
       <Header />
       <CategoryNavigation />
       <main>
