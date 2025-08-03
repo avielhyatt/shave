@@ -16,22 +16,128 @@ import { useToast } from "@/hooks/use-toast"
 
 const categories = {
   he: [
-    { value: "real-estate", label: "נדל״ן", subcategories: ["דירות למכירה", "דירות להשכרה", "בתים למכירה", "קרקעות"] },
-    { value: "vehicles", label: "רכב", subcategories: ["מכוניות", "אופנועים", "רכב מסחרי", "חלקי חילוף"] },
-    { value: "electronics", label: "אלקטרוניקה", subcategories: ["מחשבים", "טלפונים", "טלוויזיות", "קונסולות"] },
-    { value: "furniture", label: "רהיטים", subcategories: ["סלון", "חדר שינה", "מטבח", "משרד"] },
-    { value: "jobs", label: "עבודה", subcategories: ["משרות מלאות", "משרות חלקיות", "פרילנס", "סטאז׳"] },
-    { value: "services", label: "שירותים", subcategories: ["ניקיון", "שיפוצים", "גינון", "חינוך"] },
-    { value: "jewelry", label: "תכשיטים", subcategories: ["שרשראות", "עגילים", "שעונים", "צמידים"] }
+    { 
+      value: "real-estate", 
+      label: "נדל״ן", 
+      subcategories: ["דירות למכירה", "דירות להשכרה", "בתים פרטיים", "מגרשים", "משרדים", "חנויות", "מחסנים", "פנטהאוזים", "דופלקסים"] 
+    },
+    { 
+      value: "vehicles", 
+      label: "רכב", 
+      subcategories: ["רכבים פרטיים", "רכבים מסחריים", "אופנועים", "קטנועים", "משאיות", "אוטובוסים", "כלי שייט", "קרוואנים", "טרקטורים", "חלקי חילוף"] 
+    },
+    { 
+      value: "electronics", 
+      label: "אלקטרוניקה ומחשבים", 
+      subcategories: ["סמארטפונים וטאבלטים", "מחשבים ולפטופים", "טלוויזיות ומסכים", "מצלמות וצילום", "אוזניות ואודיו", "קונסולות משחק", "רמקולים", "מכשירי חשמל"] 
+    },
+    { 
+      value: "furniture", 
+      label: "רהיטים ועיצוב הבית", 
+      subcategories: ["רהיטי סלון", "רהיטי חדר שינה", "רהיטי מטבח", "כסאות ושולחנות", "ארונות", "מזרנים", "אביזרי נוי", "תאורה", "שטיחים"] 
+    },
+    { 
+      value: "fashion", 
+      label: "אופנה וביגוד", 
+      subcategories: ["ביגוד גברים", "ביגוד נשים", "ביגוד ילדים", "נעליים", "תיקים", "חגורות", "משקפי שמש", "כובעים"] 
+    },
+    { 
+      value: "jewelry", 
+      label: "תכשיטים ושעונים", 
+      subcategories: ["שעונים", "טבעות", "שרשראות", "עגילים", "צמידים", "תליונים", "משקפיים", "תכשיטי זהב", "תכשיטי כסף"] 
+    },
+    { 
+      value: "jobs", 
+      label: "דרושים ועבודה", 
+      subcategories: ["הייטק וטכנולוגיה", "רפואה ובריאות", "חינוך והוראה", "בנייה ותחזוקה", "שירותי לקוחות", "מכירות ושיווק", "עיצוב וגרפיקה", "כספים וחשבונאות"] 
+    },
+    { 
+      value: "services", 
+      label: "שירותים ובעלי מקצוע", 
+      subcategories: ["שיפוצים ובנייה", "צביעה ועיצוב", "מספרות ויופי", "גינון ונוף", "חשמל ואינסטלציה", "מנעולנות", "ניקיון", "הובלות", "רפואה משלימה"] 
+    },
+    { 
+      value: "hobbies", 
+      label: "תחביבים ופנאי", 
+      subcategories: ["ספורט וכושר", "משחקי מחשב", "ספרים", "מוזיקה", "קמפינג וטיולים", "אספנות", "ציור ואמנות", "בישול", "צילום"] 
+    },
+    { 
+      value: "babies", 
+      label: "תינוקות וילדים", 
+      subcategories: ["עגלות ומוצרי בטיחות", "ביגוד לתינוקות", "צעצועים", "רהיטי ילדים", "מוצרי האכלה", "חיתולים", "מוצרי רחצה", "ספרי ילדים"] 
+    },
+    { 
+      value: "animals", 
+      label: "חיות מחמד", 
+      subcategories: ["כלבים", "חתולים", "ציפורים", "דגים", "אביזרים לחיות", "מזון לחיות", "ביגוד לחיות", "צעצועים לחיות"] 
+    },
+    { 
+      value: "wedding", 
+      label: "חתונות ואירועים", 
+      subcategories: ["שמלות כלה", "חליפות חתן", "אולמות וגני אירועים", "צילום ווידאו", "עיצוב פרחים", "DJ ומוזיקה", "קייטרינג", "הזמנות"] 
+    }
   ],
   en: [
-    { value: "real-estate", label: "Real Estate", subcategories: ["Apartments for Sale", "Apartments for Rent", "Houses for Sale", "Land"] },
-    { value: "vehicles", label: "Vehicles", subcategories: ["Cars", "Motorcycles", "Commercial Vehicles", "Spare Parts"] },
-    { value: "electronics", label: "Electronics", subcategories: ["Computers", "Phones", "TVs", "Consoles"] },
-    { value: "furniture", label: "Furniture", subcategories: ["Living Room", "Bedroom", "Kitchen", "Office"] },
-    { value: "jobs", label: "Jobs", subcategories: ["Full Time", "Part Time", "Freelance", "Internship"] },
-    { value: "services", label: "Services", subcategories: ["Cleaning", "Renovations", "Gardening", "Education"] },
-    { value: "jewelry", label: "Jewelry", subcategories: ["Necklaces", "Earrings", "Watches", "Bracelets"] }
+    { 
+      value: "real-estate", 
+      label: "Real Estate", 
+      subcategories: ["Apartments for Sale", "Apartments for Rent", "Private Houses", "Land", "Offices", "Stores", "Warehouses", "Penthouses", "Duplexes"] 
+    },
+    { 
+      value: "vehicles", 
+      label: "Vehicles", 
+      subcategories: ["Private Cars", "Commercial Vehicles", "Motorcycles", "Scooters", "Trucks", "Buses", "Boats", "RVs", "Tractors", "Spare Parts"] 
+    },
+    { 
+      value: "electronics", 
+      label: "Electronics & Computers", 
+      subcategories: ["Smartphones & Tablets", "Computers & Laptops", "TVs & Monitors", "Cameras & Photography", "Headphones & Audio", "Gaming Consoles", "Speakers", "Home Appliances"] 
+    },
+    { 
+      value: "furniture", 
+      label: "Furniture & Home Design", 
+      subcategories: ["Living Room Furniture", "Bedroom Furniture", "Kitchen Furniture", "Chairs & Tables", "Wardrobes", "Mattresses", "Decorative Items", "Lighting", "Rugs"] 
+    },
+    { 
+      value: "fashion", 
+      label: "Fashion & Clothing", 
+      subcategories: ["Men's Clothing", "Women's Clothing", "Children's Clothing", "Shoes", "Bags", "Belts", "Sunglasses", "Hats"] 
+    },
+    { 
+      value: "jewelry", 
+      label: "Jewelry & Watches", 
+      subcategories: ["Watches", "Rings", "Necklaces", "Earrings", "Bracelets", "Pendants", "Glasses", "Gold Jewelry", "Silver Jewelry"] 
+    },
+    { 
+      value: "jobs", 
+      label: "Jobs & Employment", 
+      subcategories: ["Hi-Tech & Technology", "Medical & Health", "Education & Teaching", "Construction & Maintenance", "Customer Service", "Sales & Marketing", "Design & Graphics", "Finance & Accounting"] 
+    },
+    { 
+      value: "services", 
+      label: "Services & Professionals", 
+      subcategories: ["Renovations & Construction", "Painting & Design", "Hair & Beauty", "Gardening & Landscaping", "Electrical & Plumbing", "Locksmith", "Cleaning", "Moving", "Alternative Medicine"] 
+    },
+    { 
+      value: "hobbies", 
+      label: "Hobbies & Leisure", 
+      subcategories: ["Sports & Fitness", "Video Games", "Books", "Music", "Camping & Hiking", "Collecting", "Art & Painting", "Cooking", "Photography"] 
+    },
+    { 
+      value: "babies", 
+      label: "Babies & Children", 
+      subcategories: ["Strollers & Safety Products", "Baby Clothes", "Toys", "Children's Furniture", "Feeding Products", "Diapers", "Bath Products", "Children's Books"] 
+    },
+    { 
+      value: "animals", 
+      label: "Pets", 
+      subcategories: ["Dogs", "Cats", "Birds", "Fish", "Pet Accessories", "Pet Food", "Pet Clothing", "Pet Toys"] 
+    },
+    { 
+      value: "wedding", 
+      label: "Weddings & Events", 
+      subcategories: ["Wedding Dresses", "Groom Suits", "Event Halls & Gardens", "Photography & Video", "Flower Design", "DJ & Music", "Catering", "Invitations"] 
+    }
   ]
 }
 

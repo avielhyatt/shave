@@ -34,11 +34,16 @@ const categories = [
   { value: "all", label: "כל הקטגוריות" },
   { value: "real-estate", label: "נדל״ן" },
   { value: "vehicles", label: "רכב" },
-  { value: "electronics", label: "אלקטרוניקה" },
-  { value: "furniture", label: "רהיטים" },
-  { value: "jobs", label: "עבודה" },
-  { value: "services", label: "שירותים" },
-  { value: "jewelry", label: "תכשיטים" }
+  { value: "electronics", label: "אלקטרוניקה ומחשבים" },
+  { value: "furniture", label: "רהיטים ועיצוב הבית" },
+  { value: "fashion", label: "אופנה וביגוד" },
+  { value: "jewelry", label: "תכשיטים ושעונים" },
+  { value: "jobs", label: "דרושים ועבודה" },
+  { value: "services", label: "שירותים ובעלי מקצוע" },
+  { value: "hobbies", label: "תחביבים ופנאי" },
+  { value: "babies", label: "תינוקות וילדים" },
+  { value: "animals", label: "חיות מחמד" },
+  { value: "wedding", label: "חתונות ואירועים" }
 ]
 
 const israeliCities = [

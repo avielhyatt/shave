@@ -1,51 +1,53 @@
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { 
-  Package, 
   Home, 
   Car, 
   Briefcase, 
   Wrench,
   Smartphone,
   Armchair,
-  Shirt,
-  Building,
-  Key,
-  Bike
+  Gem,
+  Gamepad2,
+  Baby,
+  Dog,
+  Heart
 } from "lucide-react";
 
 const categories = [
   {
-    id: "electronics",
-    name: "אלקטרוניקה",
-    icon: Package,
-    subcategories: [
-      { id: "electronics", name: "אלקטרוניקה", icon: Smartphone },
-      { id: "furniture", name: "רהיטים", icon: Armchair },
-      { id: "clothing", name: "ביגוד", icon: Shirt },
-    ]
-  },
-  {
     id: "real-estate",
     name: "נדל״ן",
     icon: Home,
-    subcategories: [
-      { id: "apartments-for-sale", name: "דירות למכירה", icon: Building },
-      { id: "apartments-for-rent", name: "דירות להשכרה", icon: Key },
-    ]
+    subcategories: []
   },
   {
     id: "vehicles",
     name: "רכב",
     icon: Car,
-    subcategories: [
-      { id: "cars", name: "מכוניות", icon: Car },
-      { id: "motorcycles", name: "אופנועים", icon: Bike },
-    ]
+    subcategories: []
+  },
+  {
+    id: "electronics",
+    name: "אלקטרוניקה",
+    icon: Smartphone,
+    subcategories: []
+  },
+  {
+    id: "furniture",
+    name: "רהיטים",
+    icon: Armchair,
+    subcategories: []
+  },
+  {
+    id: "jewelry",
+    name: "תכשיטים",
+    icon: Gem,
+    subcategories: []
   },
   {
     id: "jobs",
-    name: "עבודה",
+    name: "דרושים",
     icon: Briefcase,
     subcategories: []
   },
@@ -53,6 +55,30 @@ const categories = [
     id: "services",
     name: "שירותים",
     icon: Wrench,
+    subcategories: []
+  },
+  {
+    id: "hobbies",
+    name: "תחביבים",
+    icon: Gamepad2,
+    subcategories: []
+  },
+  {
+    id: "babies",
+    name: "תינוקות",
+    icon: Baby,
+    subcategories: []
+  },
+  {
+    id: "animals",
+    name: "חיות מחמד",
+    icon: Dog,
+    subcategories: []
+  },
+  {
+    id: "wedding",
+    name: "חתונות",
+    icon: Heart,
     subcategories: []
   }
 ];

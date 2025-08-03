@@ -3,87 +3,228 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { 
-  Package, 
   Home, 
   Car, 
   Briefcase, 
   Wrench,
   Smartphone,
+  Laptop,
+  Tv,
+  Camera,
+  Headphones,
   Armchair,
+  Sofa,
+  Bed,
   Shirt,
   Building,
   Key,
   Bike,
-  Gem
+  Gem,
+  Truck,
+  Navigation,
+  Baby,
+  Gift,
+  BookOpen,
+  Music,
+  Gamepad2,
+  MapPin,
+  Users,
+  Stethoscope,
+  GraduationCap,
+  Hammer,
+  PaintBucket,
+  Scissors,
+  Flower,
+  Utensils,
+  Coffee,
+  Zap,
+  ShoppingBag,
+  Watch,
+  Glasses,
+  Heart,
+  Dumbbell,
+  TreePine,
+  Dog,
+  Palette,
+  Package
 } from "lucide-react";
 
 const categories = [
-  {
-    id: "electronics",
-    name: "אלקטרוניקה",
-    description: "מוצרי אלקטרוניקה, רהיטים וכל מה שצריך",
-    icon: Package,
-    count: "15,234",
-    color: "bg-blue-500",
-    subcategories: [
-      { name: "אלקטרוניקה", count: "5,421", icon: Smartphone },
-      { name: "רהיטים", count: "3,892", icon: Armchair },
-      { name: "ביגוד", count: "2,567", icon: Shirt }
-    ]
-  },
   {
     id: "real-estate",
     name: "נדל״ן",
     description: "דירות ובתים למכירה ולהשכרה",
     icon: Home,
-    count: "8,932",
-    color: "bg-green-500",
+    count: "45,892",
+    color: "bg-emerald-500",
     subcategories: [
-      { name: "דירות למכירה", count: "4,234", icon: Building },
-      { name: "דירות להשכרה", count: "3,421", icon: Key }
+      { name: "דירות למכירה", count: "18,234", icon: Building },
+      { name: "דירות להשכרה", count: "15,421", icon: Key },
+      { name: "בתים פרטיים", count: "6,789", icon: Home },
+      { name: "מגרשים", count: "3,456", icon: MapPin },
+      { name: "משרדים", count: "1,992", icon: Building }
     ]
   },
   {
     id: "vehicles",
     name: "רכב",
-    description: "מכוניות, אופנועים וכלי רכב",
+    description: "רכבים פרטיים, מסחריים ואופנועים",
     icon: Car,
-    count: "12,567",
-    color: "bg-orange-500",
+    count: "32,567",
+    color: "bg-blue-600",
     subcategories: [
-      { name: "מכוניות", count: "9,234", icon: Car },
-      { name: "אופנועים", count: "1,892", icon: Bike }
+      { name: "רכבים פרטיים", count: "24,234", icon: Car },
+      { name: "רכבים מסחריים", count: "4,892", icon: Truck },
+      { name: "אופנועים", count: "2,441", icon: Bike },
+      { name: "משאיות", count: "892", icon: Truck },
+      { name: "כלי שייט", count: "108", icon: Navigation }
+    ]
+  },
+  {
+    id: "electronics",
+    name: "אלקטרוניקה ומחשבים",
+    description: "מחשבים, סמארטפונים ומוצרי אלקטרוניקה",
+    icon: Smartphone,
+    count: "28,234",
+    color: "bg-indigo-500",
+    subcategories: [
+      { name: "סמארטפונים וטאבלטים", count: "12,421", icon: Smartphone },
+      { name: "מחשבים ולפטופים", count: "8,892", icon: Laptop },
+      { name: "טלוויזיות ומסכים", count: "4,567", icon: Tv },
+      { name: "מצלמות וצילום", count: "1,892", icon: Camera },
+      { name: "אוזניות ואודיו", count: "462", icon: Headphones }
+    ]
+  },
+  {
+    id: "furniture",
+    name: "רהיטים ועיצוב הבית",
+    description: "רהיטים, עיצוב פנים ומוצרי בית",
+    icon: Armchair,
+    count: "19,567",
+    color: "bg-amber-500",
+    subcategories: [
+      { name: "רהיטי סלון", count: "7,234", icon: Sofa },
+      { name: "רהיטי חדר שינה", count: "5,892", icon: Bed },
+      { name: "רהיטי מטבח", count: "3,441", icon: Utensils },
+      { name: "כסאות ושולחנות", count: "2,567", icon: Armchair },
+      { name: "אביזרי נוי", count: "433", icon: Palette }
+    ]
+  },
+  {
+    id: "fashion",
+    name: "אופנה וביגוד",
+    description: "ביגוד, נעליים ואביזרי אופנה",
+    icon: Shirt,
+    count: "15,892",
+    color: "bg-pink-500",
+    subcategories: [
+      { name: "ביגוד גברים", count: "6,234", icon: Shirt },
+      { name: "ביגוד נשים", count: "7,892", icon: Shirt },
+      { name: "נעליים", count: "1,456", icon: Shirt },
+      { name: "תיקים", count: "310", icon: ShoppingBag }
+    ]
+  },
+  {
+    id: "jewelry",
+    name: "תכשיטים ושעונים",
+    description: "תכשיטים, שעונים ואביזרי יוקרה",
+    icon: Gem,
+    count: "8,156",
+    color: "bg-purple-500",
+    subcategories: [
+      { name: "שעונים", count: "3,697", icon: Watch },
+      { name: "טבעות", count: "1,892", icon: Gem },
+      { name: "שרשראות", count: "1,567", icon: Gem },
+      { name: "עגילים", count: "800", icon: Gem },
+      { name: "משקפיים", count: "200", icon: Glasses }
     ]
   },
   {
     id: "jobs",
-    name: "עבודה",
-    description: "דרושים ומשרות פנויות בכל התחומים",
+    name: "דרושים ועבודה",
+    description: "משרות פנויות ומתן שירותים",
     icon: Briefcase,
-    count: "6,789",
-    color: "bg-purple-500",
-    subcategories: []
+    count: "12,789",
+    color: "bg-green-600",
+    subcategories: [
+      { name: "הייטק וטכנולוגיה", count: "4,234", icon: Laptop },
+      { name: "רפואה ובריאות", count: "2,892", icon: Stethoscope },
+      { name: "חינוך והוראה", count: "2,441", icon: GraduationCap },
+      { name: "בנייה ותחזוקה", count: "1,892", icon: Hammer },
+      { name: "שירותי לקוחות", count: "1,330", icon: Users }
+    ]
   },
   {
     id: "services",
-    name: "שירותים",
-    description: "שירותים מקצועיים ועסקים מקומיים",
+    name: "שירותים ובעלי מקצוע",
+    description: "שירותים מקצועיים ובעלי מקצוע",
     icon: Wrench,
-    count: "4,321",
+    count: "9,321",
     color: "bg-teal-500",
-    subcategories: []
+    subcategories: [
+      { name: "שיפוצים ובנייה", count: "3,234", icon: Hammer },
+      { name: "צביעה ועיצוב", count: "1,892", icon: PaintBucket },
+      { name: "מספרות ויופי", count: "1,567", icon: Scissors },
+      { name: "גינון ונוף", count: "1,328", icon: Flower },
+      { name: "חשמל ואינסטלציה", count: "1,300", icon: Zap }
+    ]
   },
   {
-    id: "jewelry",
-    name: "תכשיטים",
-    description: "תכשיטים, שעונים ואביזרי אופנה",
-    icon: Gem,
-    count: "2,156",
-    color: "bg-pink-500",
+    id: "hobbies",
+    name: "תחביבים ופנאי",
+    description: "ספורט, משחקים ופעילויות פנאי",
+    icon: Gamepad2,
+    count: "11,567",
+    color: "bg-orange-500",
     subcategories: [
-      { name: "שרשראות", count: "892", icon: Gem },
-      { name: "עגילים", count: "567", icon: Gem },
-      { name: "שעונים", count: "697", icon: Gem }
+      { name: "ספורט וכושר", count: "4,234", icon: Dumbbell },
+      { name: "משחקי מחשב", count: "2,892", icon: Gamepad2 },
+      { name: "ספרים", count: "2,441", icon: BookOpen },
+      { name: "מוזיקה", count: "1,567", icon: Music },
+      { name: "קמפינג וטיולים", count: "433", icon: TreePine }
+    ]
+  },
+  {
+    id: "babies",
+    name: "תינוקות וילדים",
+    description: "מוצרי תינוקות, ילדים וצעצועים",
+    icon: Baby,
+    count: "7,892",
+    color: "bg-rose-400",
+    subcategories: [
+      { name: "עגלות ומוצרי בטיחות", count: "2,567", icon: Baby },
+      { name: "ביגוד לתינוקות", count: "2,234", icon: Shirt },
+      { name: "צעצועים", count: "1,891", icon: Gift },
+      { name: "רהיטי ילדים", count: "1,200", icon: Bed }
+    ]
+  },
+  {
+    id: "animals",
+    name: "חיות מחמד",
+    description: "חיות מחמד ואביזרים לחיות",
+    icon: Dog,
+    count: "4,567",
+    color: "bg-yellow-500",
+    subcategories: [
+      { name: "כלבים", count: "2,234", icon: Dog },
+      { name: "חתולים", count: "1,567", icon: Heart },
+      { name: "אביזרים לחיות", count: "566", icon: Gift },
+      { name: "מזון לחיות", count: "200", icon: Package }
+    ]
+  },
+  {
+    id: "wedding",
+    name: "חתונות ואירועים",
+    description: "שמלות כלה, חליפות וכל מה שקשור לחתונה",
+    icon: Heart,
+    count: "3,234",
+    color: "bg-rose-500",
+    subcategories: [
+      { name: "שמלות כלה", count: "1,234", icon: Heart },
+      { name: "חליפות חתן", count: "892", icon: Shirt },
+      { name: "אולמות וגני אירועים", count: "567", icon: Users },
+      { name: "צילום ווידאו", count: "441", icon: Camera },
+      { name: "עיצוב פרחים", count: "100", icon: Flower }
     ]
   }
 ];
