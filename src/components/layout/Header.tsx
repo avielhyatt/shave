@@ -80,7 +80,7 @@ export const Header = () => {
                 <img src={shaveliLogo} alt="Shaveli Logo" className="w-full h-full object-cover" />
               </div>
               <div className="flex flex-col">
-                <span className="text-2xl font-bold text-primary hebrew-text leading-none">{direction === 'rtl' ? 'שווה לי' : 'Shave.Li'}</span>
+                <span className="text-2xl font-bold text-primary leading-none">Shave.Li</span>
                 <span className="text-sm text-muted-foreground">{direction === 'rtl' ? 'השוק שלכם' : 'Your Marketplace'}</span>
               </div>
             </Link>
