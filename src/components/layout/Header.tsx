@@ -10,7 +10,7 @@ import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import shaveliLogo from "@/assets/shave-li-diver-logo.png";
+import shaveliLogo from "@/assets/shave-li-final-logo.png";
 
 export const Header = () => {
   const { user } = useAuth();
