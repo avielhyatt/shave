@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, ReactNode } from 'react'
+import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
 
 type Language = 'he' | 'en'
 type Direction = 'rtl' | 'ltr'
@@ -29,8 +29,13 @@ const translations = {
     'hero.search': 'מה אתם מחפשים היום?',
     'hero.searchButton': 'חיפוש',
     'hero.postAd': 'פרסמו מודעה בחינם',
+    'hero.stats.activeAds': 'מודעות פעילות',
+    'hero.stats.users': 'משתמשים רשומים',
+    'hero.stats.dailyAds': 'מודעות חדשות יומית',
     
     // Categories
+    'categories.title': 'חקרו את הקטגוריות שלנו',
+    'categories.subtitle': 'מצאו בדיוק מה שאתם מחפשים במגוון רחב של קטגוריות',
     'category.electronics': 'אלקטרוניקה',
     'category.realEstate': 'נדל״ן',
     'category.vehicles': 'רכב',
@@ -77,8 +82,13 @@ const translations = {
     'hero.search': 'What are you looking for today?',
     'hero.searchButton': 'Search',
     'hero.postAd': 'Post Ad for Free',
+    'hero.stats.activeAds': 'Active Ads',
+    'hero.stats.users': 'Registered Users',
+    'hero.stats.dailyAds': 'New Daily Ads',
     
     // Categories
+    'categories.title': 'Explore Our Categories',
+    'categories.subtitle': 'Find exactly what you\'re looking for in our wide range of categories',
     'category.electronics': 'Electronics',
     'category.realEstate': 'Real Estate',
     'category.vehicles': 'Vehicles',
@@ -140,12 +150,12 @@ export const LanguageProvider = ({ children }: LanguageProviderProps) => {
   }
 
   // Initialize language from localStorage
-  useState(() => {
+  useEffect(() => {
     const savedLang = localStorage.getItem('language') as Language
     if (savedLang && ['he', 'en'].includes(savedLang)) {
       setLanguage(savedLang)
     }
-  })
+  }, [])
 
   const value = {
     language,

@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { 
   Package, 
   Home, 
@@ -74,15 +75,17 @@ const categories = [
 ];
 
 export const CategoryGrid = () => {
+  const { t, direction } = useLanguage()
+  
   return (
     <section className="py-16 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4 hebrew-text">
-            חקרו את הקטגוריות שלנו
+          <h2 className="text-3xl md:text-4xl font-bold mb-4" dir={direction}>
+            {t('categories.title')}
           </h2>
-          <p className="text-xl text-muted-foreground hebrew-text">
-            מצאו בדיוק מה שאתם מחפשים במגוון רחב של קטגוריות
+          <p className="text-xl text-muted-foreground" dir={direction}>
+            {t('categories.subtitle')}
           </p>
         </div>
 

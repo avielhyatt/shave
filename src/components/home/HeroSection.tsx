@@ -4,19 +4,21 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export const HeroSection = () => {
   const [searchQuery, setSearchQuery] = useState("")
   const navigate = useNavigate()
+  const { t, direction } = useLanguage()
 
   const handleSearch = () => {
     navigate(`/browse?q=${encodeURIComponent(searchQuery)}`)
   }
 
   const stats = [
-    { number: "50,000+", label: "מודעות פעילות" },
-    { number: "100,000+", label: "משתמשים רשומים" },
-    { number: "500+", label: "מודעות חדשות יומית" },
+    { number: "50,000+", label: t('hero.stats.activeAds') },
+    { number: "100,000+", label: t('hero.stats.users') },
+    { number: "500+", label: t('hero.stats.dailyAds') },
   ];
 
   return (
@@ -31,11 +33,11 @@ export const HeroSection = () => {
       
       <div className="container mx-auto px-4 text-center relative z-10">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 hebrew-text">
-            שווה - השוק הישראלי שלכם
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4" dir={direction}>
+            {t('hero.title')}
           </h1>
-          <p className="text-xl md:text-2xl text-white/90 mb-8 hebrew-text">
-            קנו, מכרו והשכירו בקלות ובביטחון
+          <p className="text-xl md:text-2xl text-white/90 mb-8" dir={direction}>
+            {t('hero.subtitle')}
           </p>
           
           {/* Search Bar */}
@@ -43,18 +45,18 @@ export const HeroSection = () => {
             <Card className="p-2">
               <div className="flex gap-2">
                 <div className="relative flex-1">
-                  <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+                  <Search className={`absolute ${direction === 'rtl' ? 'right-3' : 'left-3'} top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5`} />
                   <Input
-                    placeholder="מה אתם מחפשים היום?"
-                    className="w-full pr-12 h-12 text-lg hebrew-text"
-                    dir="rtl"
+                    placeholder={t('hero.search')}
+                    className={`w-full ${direction === 'rtl' ? 'pr-12' : 'pl-12'} h-12 text-lg`}
+                    dir={direction}
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
                   />
                 </div>
-                <Button size="lg" className="px-8 hebrew-text" onClick={handleSearch}>
-                  חיפוש
+                <Button size="lg" className="px-8" onClick={handleSearch} dir={direction}>
+                  {t('hero.searchButton')}
                 </Button>
               </div>
             </Card>
@@ -64,12 +66,12 @@ export const HeroSection = () => {
           <div className="mb-12">
             <Button 
               size="lg" 
-              className="px-8 py-6 text-lg hebrew-text bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-0 shadow-lg"
+              className="px-8 py-6 text-lg bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-0 shadow-lg"
               asChild
             >
-              <Link to="/post-ad">
-                <Plus className="w-5 h-5 ml-2" />
-                פרסמו מודעה בחינם
+              <Link to="/post-ad" dir={direction}>
+                <Plus className={`w-5 h-5 ${direction === 'rtl' ? 'ml-2' : 'mr-2'}`} />
+                {t('hero.postAd')}
               </Link>
             </Button>
           </div>
@@ -79,7 +81,7 @@ export const HeroSection = () => {
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
                 <div className="text-3xl md:text-4xl font-bold mb-2">{stat.number}</div>
-                <div className="text-lg text-white/80 hebrew-text">{stat.label}</div>
+                <div className="text-lg text-white/80" dir={direction}>{stat.label}</div>
               </div>
             ))}
           </div>
