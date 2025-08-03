@@ -7,72 +7,75 @@ import { Link } from "react-router-dom";
 export const Footer = () => {
   const footerSections = [
     {
-      title: "קטגוריות פופולריות",
+      title: "קטגוריות מובילות",
       links: [
-        { name: "דירות למכירה", path: "/browse?category=real-estate&subcategory=sale" },
-        { name: "דירות להשכרה", path: "/browse?category=real-estate&subcategory=rent" },
-        { name: "מכוניות יד שנייה", path: "/browse?category=vehicles&subcategory=cars" },
-        { name: "אלקטרוניקה", path: "/browse?category=electronics" },
-        { name: "משרות בהיי-טק", path: "/browse?category=jobs&subcategory=tech" },
-        { name: "רהיטים לבית", path: "/browse?category=home&subcategory=furniture" }
+        { name: "דירות למכירה", path: "/browse?category=real-estate&type=sale" },
+        { name: "דירות להשכרה", path: "/browse?category=real-estate&type=rent" },
+        { name: "רכב יד שנייה", path: "/browse?category=vehicles" },
+        { name: "טכנולוגיה", path: "/browse?category=electronics" },
+        { name: "בית וגן", path: "/browse?category=home-garden" },
+        { name: "אופנה ויופי", path: "/browse?category=fashion" }
       ]
     },
     {
-      title: "עזרה ותמיכה",
+      title: "שירותי לקוחות",
       links: [
         { name: "מרכז עזרה", path: "/help" },
-        { name: "איך לפרסם מודעה", path: "/help#how-to-post" },
-        { name: "כללי בטיחות", path: "/help#safety" },
-        { name: "דיווח על תוכן", path: "/help#report" },
+        { name: "כללי בטיחות", path: "/help" },
+        { name: "איך לפרסם מודעה", path: "/help" },
+        { name: "דיווח על תוכן", path: "/help" },
         { name: "צרו קשר", path: "/contact" },
-        { name: "שאלות נפוצות", path: "/help#faq" }
+        { name: "שאלות נפוצות", path: "/help" }
       ]
     },
     {
-      title: "החברה",
+      title: "שווה",
       links: [
-        { name: "אודות שווה", path: "/about" },
-        { name: "קריירה", path: "/about#careers" },
-        { name: "עיתונות", path: "/about#press" },
-        { name: "משקיעים", path: "/about#investors" },
-        { name: "בלוג", path: "/about#blog" },
-        { name: "שותפויות", path: "/contact" }
+        { name: "אודותינו", path: "/about" },
+        { name: "משרות פנויות", path: "/contact" },
+        { name: "עיתונות", path: "/about" },
+        { name: "בלוג החברה", path: "/about" },
+        { name: "שותפויות עסקיות", path: "/contact" },
+        { name: "משקיעים", path: "/about" }
       ]
     },
     {
-      title: "חוקים ותנאים",
+      title: "תנאים משפטיים",
       links: [
         { name: "תנאי שימוש", path: "/terms" },
         { name: "מדיניות פרטיות", path: "/privacy" },
-        { name: "עוגיות", path: "/privacy#cookies" },
-        { name: "זכויות יוצרים", path: "/terms#copyright" },
-        { name: "הסכם רישיון", path: "/terms#license" },
-        { name: "הודעה משפטית", path: "/terms#legal" }
+        { name: "הסכם משתמש", path: "/terms" },
+        { name: "זכויות יוצרים", path: "/terms" },
+        { name: "הודעה משפטית", path: "/terms" },
+        { name: "נגישות", path: "/help" }
       ]
     }
   ];
 
   return (
-    <footer className="bg-muted/30 border-t">
-      <div className="container mx-auto px-4 py-12">
+    <footer className="bg-gradient-to-t from-muted/50 to-background border-t">
+      <div className="container mx-auto px-4 py-16">
         {/* Newsletter Section */}
-        <div className="mb-12 text-center">
-          <h3 className="text-2xl font-bold mb-4 hebrew-text">
-            הישארו מעודכנים
+        <div className="mb-16 text-center">
+          <h3 className="text-3xl font-bold mb-4 hebrew-text">
+            הצטרפו לקהילה שלנו
           </h3>
-          <p className="text-muted-foreground mb-6 hebrew-text">
-            הירשמו לניוזלטר שלנו וקבלו עדכונים על מודעות חדשות והטבות מיוחדות
+          <p className="text-muted-foreground mb-6 hebrew-text max-w-2xl mx-auto">
+            קבלו התראות על מודעות חדשות, טיפים למכירה מוצלחת והטבות בלעדיות למנויים
           </p>
-          <div className="max-w-md mx-auto flex gap-2">
+          <div className="max-w-lg mx-auto flex gap-3">
             <Input
-              placeholder="הכניסו את האימייל שלכם"
-              className="hebrew-text"
+              placeholder="הכניסו את כתובת האימייל שלכם"
+              className="hebrew-text flex-1"
               dir="rtl"
             />
-            <Button className="hebrew-text">
-              הרשמה
+            <Button className="hebrew-text px-8 bg-primary hover:bg-primary/90">
+              הרשמה לניוזלטר
             </Button>
           </div>
+          <p className="text-xs text-muted-foreground mt-3 hebrew-text">
+            ללא ספאם • ביטול מנוי בקליק אחד • מידע מאובטח ומוגן
+          </p>
         </div>
 
         <Separator className="mb-12" />
