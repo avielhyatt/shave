@@ -3,8 +3,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { ImageCarousel } from "./ImageCarousel"
-import { MapPin, Phone, Mail, Heart, Calendar, Star, Eye, Share2, Flag } from "lucide-react"
+import { MapPin, Phone, Mail, Heart, Calendar, Star, Eye, Share2, Flag, Lock } from "lucide-react"
 import { useLanguage } from "@/contexts/LanguageContext"
+import { useAuth } from "@/contexts/AuthContext"
 import { toast } from 'sonner'
 
 interface Listing {
@@ -62,6 +63,7 @@ export const ListingModal = ({
   onReport
 }: ListingModalProps) => {
   const { t, direction } = useLanguage()
+  const { user } = useAuth()
 
   if (!listing) return null
 
@@ -173,25 +175,41 @@ export const ListingModal = ({
             </div>
 
             {/* Contact Information */}
-            {(listing.contact_phone || listing.contact_email) && (
-              <div className={`${direction === 'rtl' ? 'text-right' : 'text-left'}`}>
-                <h3 className="text-lg font-semibold mb-3 hebrew-text">פרטי יצירת קשר</h3>
-                <div className="bg-muted/30 rounded-lg p-4 space-y-3">
-                  {listing.contact_phone && (
-                    <div className="flex items-center gap-3 p-2 bg-background rounded-md">
-                      <Phone className="w-4 h-4 text-primary" />
-                      <span className="font-mono font-medium">{listing.contact_phone}</span>
+            <div className={`${direction === 'rtl' ? 'text-right' : 'text-left'}`}>
+              <h3 className="text-lg font-semibold mb-3 hebrew-text">פרטי יצירת קשר</h3>
+              {user ? (
+                (listing.contact_phone || listing.contact_email) ? (
+                  <div className="bg-muted/30 rounded-lg p-4 space-y-3">
+                    {listing.contact_phone && (
+                      <div className="flex items-center gap-3 p-2 bg-background rounded-md">
+                        <Phone className="w-4 h-4 text-primary" />
+                        <span className="font-mono font-medium">{listing.contact_phone}</span>
+                      </div>
+                    )}
+                    {listing.contact_email && (
+                      <div className="flex items-center gap-3 p-2 bg-background rounded-md">
+                        <Mail className="w-4 h-4 text-primary" />
+                        <span className="break-all">{listing.contact_email}</span>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="bg-muted/30 rounded-lg p-4">
+                    <p className="text-muted-foreground hebrew-text">לא הוזנו פרטי יצירת קשר למודעה זו</p>
+                  </div>
+                )
+              ) : (
+                <div className="bg-muted/30 rounded-lg p-4 border border-amber-200">
+                  <div className="flex items-center gap-3 text-amber-700">
+                    <Lock className="w-5 h-5" />
+                    <div>
+                      <p className="font-medium hebrew-text">נדרשת התחברות</p>
+                      <p className="text-sm text-muted-foreground hebrew-text">יש להתחבר כדי לראות פרטי יצירת קשר</p>
                     </div>
-                  )}
-                  {listing.contact_email && (
-                    <div className="flex items-center gap-3 p-2 bg-background rounded-md">
-                      <Mail className="w-4 h-4 text-primary" />
-                      <span className="break-all">{listing.contact_email}</span>
-                    </div>
-                  )}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
 
             {/* Action Buttons */}
             <div className="space-y-3">
