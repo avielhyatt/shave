@@ -69,18 +69,20 @@ export default function Browse() {
     if (user) {
       fetchUserFavorites()
     }
-    
+  }, [user])
+
+  useEffect(() => {
     // Set initial filters from URL
     const categoryParam = searchParams.get('category')
     const queryParam = searchParams.get('q')
     
-    if (categoryParam) {
+    if (categoryParam && categoryParam !== selectedCategory) {
       setSelectedCategory(categoryParam)
     }
-    if (queryParam) {
+    if (queryParam && queryParam !== searchQuery) {
       setSearchQuery(queryParam)
     }
-  }, [user, searchParams])
+  }, [searchParams])
 
   useEffect(() => {
     filterListings()
