@@ -10,8 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Header } from "@/components/layout/Header"
 import { Footer } from "@/components/layout/Footer"
 import { ListingModal } from "@/components/listing/ListingModal"
-import { MarketplaceView } from "@/components/marketplace/MarketplaceView"
-import { Search, Filter, MapPin, Heart, Phone, Mail, Eye, Layers, Grid3X3 } from "lucide-react"
+import { Search, Filter, MapPin, Heart, Phone, Mail, Eye } from "lucide-react"
 import { Link, useSearchParams } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
 
@@ -30,7 +29,6 @@ interface Listing {
   is_sold: boolean
   created_at: string
   user_id: string
-  view_count?: number
 }
 
 const categories = [
@@ -75,7 +73,6 @@ export default function Browse() {
   const [sortBy, setSortBy] = useState("newest")
   const [selectedListing, setSelectedListing] = useState<Listing | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const [isMarketplaceMode, setIsMarketplaceMode] = useState(false)
   const { toast } = useToast()
 
   useEffect(() => {
@@ -256,22 +253,7 @@ export default function Browse() {
     }
   }
 
-  const handleListingClick = async (listing: Listing) => {
-    // Update view count
-    try {
-      await supabase
-        .from('listings')
-        .update({ view_count: (listing.view_count || 0) + 1 })
-        .eq('id', listing.id)
-      
-      // Update local state
-      setListings(prev => prev.map(l => 
-        l.id === listing.id ? { ...l, view_count: (l.view_count || 0) + 1 } : l
-      ))
-    } catch (error) {
-      console.error('Error updating view count:', error)
-    }
-    
+  const handleListingClick = (listing: Listing) => {
     setSelectedListing(listing)
     setIsModalOpen(true)
   }
@@ -366,43 +348,9 @@ export default function Browse() {
             <h1 className="text-2xl font-bold" dir={direction}>
               {t('browse.found')} {filteredListings.length} {t('browse.ads')}
             </h1>
-            <div className="flex items-center gap-3">
-              {/* View Mode Toggle */}
-              <div className="flex items-center gap-1 bg-muted rounded-lg p-1">
-                <Button
-                  variant={!isMarketplaceMode ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => setIsMarketplaceMode(false)}
-                  className="h-8"
-                >
-                  <Grid3X3 className="w-4 h-4" />
-                </Button>
-                <Button
-                  variant={isMarketplaceMode ? "default" : "ghost"}
-                  size="sm"
-                  onClick={() => setIsMarketplaceMode(true)}
-                  className="h-8"
-                >
-                  <Layers className="w-4 h-4" />
-                </Button>
-              </div>
-              
-              {user ? (
-                <Button asChild>
-                  <Link to="/post-ad" dir={direction}>{t('browse.postNewAd')}</Link>
-                </Button>
-              ) : (
-                <Button 
-                  onClick={() => toast({
-                    title: "נדרשת התחברות",
-                    description: "יש להתחבר כדי לפרסם מודעה חדשה"
-                  })}
-                  dir={direction}
-                >
-                  פרסם מודעה (נדרשת הרשמה)
-                </Button>
-              )}
-            </div>
+            <Button asChild>
+              <Link to="/post-ad" dir={direction}>{t('browse.postNewAd')}</Link>
+            </Button>
           </div>
 
           {/* Listings Grid */}
@@ -443,15 +391,6 @@ export default function Browse() {
                 </Button>
               </div>
             </div>
-          ) : isMarketplaceMode && filteredListings.length > 0 ? (
-            <MarketplaceView
-              listings={filteredListings}
-              onContactSeller={handleContactSeller}
-              onToggleFavorite={toggleFavorite}
-              isFavorite={(listingId) => favorites.includes(listingId)}
-              onViewDetails={handleListingClick}
-              onClose={() => setIsMarketplaceMode(false)}
-            />
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredListings.map((listing) => (
