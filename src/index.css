@@ -37,19 +37,19 @@
     
     --radius: 0.75rem;
     
-    /* Shave Brand Colors */
-    --shave-blue: 221.2 83.2% 53.3%;
-    --shave-blue-light: 221.2 83.2% 60%;
-    --shave-blue-dark: 221.2 83.2% 45%;
-    --shave-orange: 25 95% 53%;
-    --shave-orange-light: 25 95% 60%;
-    --shave-green: 142 71% 45%;
-    --shave-gray: 210 16% 82%;
-    --shave-gray-light: 210 16% 93%;
+    /* Shave Brand Colors - Modern Soft Palette */
+    --shave-primary: 220 70% 50%;
+    --shave-primary-light: 220 70% 60%;
+    --shave-primary-dark: 220 70% 40%;
+    --shave-secondary: 160 60% 45%;
+    --shave-secondary-light: 160 60% 55%;
+    --shave-accent: 280 40% 50%;
+    --shave-neutral: 210 20% 50%;
+    --shave-neutral-light: 210 20% 90%;
     
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--shave-blue)), hsl(var(--shave-blue-light)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--shave-blue)), hsl(var(--shave-orange)));
+    --gradient-primary: linear-gradient(135deg, hsl(var(--shave-primary)), hsl(var(--shave-primary-light)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--shave-primary)), hsl(var(--shave-secondary)));
     
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -140,20 +140,20 @@
     background: var(--gradient-hero);
   }
 
-  .shave-blue {
-    color: hsl(var(--shave-blue));
+  .shave-primary {
+    color: hsl(var(--shave-primary));
   }
 
-  .bg-shave-blue {
-    background-color: hsl(var(--shave-blue));
+  .bg-shave-primary {
+    background-color: hsl(var(--shave-primary));
   }
 
-  .border-shave-blue {
-    border-color: hsl(var(--shave-blue));
+  .border-shave-primary {
+    border-color: hsl(var(--shave-primary));
   }
 
-  .hover\:bg-shave-blue-light:hover {
-    background-color: hsl(var(--shave-blue-light));
+  .hover\:bg-shave-primary-light:hover {
+    background-color: hsl(var(--shave-primary-light));
   }
 }
 

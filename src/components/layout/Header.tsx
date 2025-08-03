@@ -18,12 +18,12 @@ export const Header = () => {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <div className="flex items-center gap-2">
+            <Link to="/" className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
                 <span className="text-primary-foreground font-bold text-lg">ש</span>
               </div>
               <span className="text-2xl font-bold text-primary hebrew-text">שווה</span>
-            </div>
+            </Link>
           </div>
 
           {/* Desktop Search */}
@@ -40,6 +40,12 @@ export const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-2">
+            <Button variant="ghost" size="sm" className="hebrew-text" asChild>
+              <Link to="/browse">
+                <Search className="w-4 h-4 ml-2" />
+                דפדוף מודעות
+              </Link>
+            </Button>
             {user ? (
               <>
                 <Button variant="ghost" size="sm" className="hebrew-text" asChild>
@@ -98,6 +104,12 @@ export const Header = () => {
                 </div>
                 
                 <div className="flex flex-col gap-2">
+                  <Button variant="ghost" className="justify-start" asChild>
+                    <Link to="/browse">
+                      <Search className="w-4 h-4 ml-2" />
+                      דפדוף מודעות
+                    </Link>
+                  </Button>
                   {user ? (
                     <>
                       <Button variant="ghost" className="justify-start" asChild>
