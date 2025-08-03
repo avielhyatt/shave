@@ -13,6 +13,11 @@ import Dashboard from "./pages/Dashboard";
 import PostAd from "./pages/PostAd";
 import EditListing from "./pages/EditListing";
 import Notifications from "./pages/Notifications";
+import Help from "./pages/Help";
+import About from "./pages/About";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
+import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +39,11 @@ const App = () => (
             <Route path="/post-ad" element={<PostAd />} />
             <Route path="/edit-listing/:id" element={<EditListing />} />
             <Route path="/notifications" element={<Notifications />} />
+            <Route path="/help" element={<Help />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/contact" element={<Contact />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

@@ -2,51 +2,52 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
   const footerSections = [
     {
       title: "קטגוריות פופולריות",
       links: [
-        "דירות למכירה",
-        "דירות להשכרה",
-        "מכוניות יד שנייה",
-        "אלקטרוניקה",
-        "משרות בהיי-טק",
-        "רהיטים לבית"
+        { name: "דירות למכירה", path: "/browse?category=real-estate&subcategory=sale" },
+        { name: "דירות להשכרה", path: "/browse?category=real-estate&subcategory=rent" },
+        { name: "מכוניות יד שנייה", path: "/browse?category=vehicles&subcategory=cars" },
+        { name: "אלקטרוניקה", path: "/browse?category=electronics" },
+        { name: "משרות בהיי-טק", path: "/browse?category=jobs&subcategory=tech" },
+        { name: "רהיטים לבית", path: "/browse?category=home&subcategory=furniture" }
       ]
     },
     {
       title: "עזרה ותמיכה",
       links: [
-        "מרכז עזרה",
-        "איך לפרסם מודעה",
-        "כללי בטיחות",
-        "דיווח על תוכן",
-        "צרו קשר",
-        "שאלות נפוצות"
+        { name: "מרכז עזרה", path: "/help" },
+        { name: "איך לפרסם מודעה", path: "/help#how-to-post" },
+        { name: "כללי בטיחות", path: "/help#safety" },
+        { name: "דיווח על תוכן", path: "/help#report" },
+        { name: "צרו קשר", path: "/contact" },
+        { name: "שאלות נפוצות", path: "/help#faq" }
       ]
     },
     {
       title: "החברה",
       links: [
-        "אודות שווה",
-        "קריירה",
-        "עיתונות",
-        "משקיעים",
-        "בלוג",
-        "שותפויות"
+        { name: "אודות שווה", path: "/about" },
+        { name: "קריירה", path: "/about#careers" },
+        { name: "עיתונות", path: "/about#press" },
+        { name: "משקיעים", path: "/about#investors" },
+        { name: "בלוג", path: "/about#blog" },
+        { name: "שותפויות", path: "/contact" }
       ]
     },
     {
       title: "חוקים ותנאים",
       links: [
-        "תנאי שימוש",
-        "מדיניות פרטיות",
-        "עוגיות",
-        "זכויות יוצרים",
-        "הסכם רישיון",
-        "הודעה משפטית"
+        { name: "תנאי שימוש", path: "/terms" },
+        { name: "מדיניות פרטיות", path: "/privacy" },
+        { name: "עוגיות", path: "/privacy#cookies" },
+        { name: "זכויות יוצרים", path: "/terms#copyright" },
+        { name: "הסכם רישיון", path: "/terms#license" },
+        { name: "הודעה משפטית", path: "/terms#legal" }
       ]
     }
   ];
@@ -84,8 +85,10 @@ export const Footer = () => {
               <ul className="space-y-3">
                 {section.links.map((link, linkIndex) => (
                   <li key={linkIndex}>
-                    <Button variant="link" className="p-0 h-auto hebrew-text text-muted-foreground hover:text-foreground">
-                      {link}
+                    <Button variant="link" className="p-0 h-auto hebrew-text text-muted-foreground hover:text-foreground" asChild>
+                      <Link to={link.path}>
+                        {link.name}
+                      </Link>
                     </Button>
                   </li>
                 ))}
