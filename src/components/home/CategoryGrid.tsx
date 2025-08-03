@@ -13,7 +13,8 @@ import {
   Shirt,
   Building,
   Key,
-  Bike
+  Bike,
+  Gem
 } from "lucide-react";
 
 const categories = [
@@ -71,6 +72,19 @@ const categories = [
     count: "4,321",
     color: "bg-teal-500",
     subcategories: []
+  },
+  {
+    id: "jewelry",
+    name: "תכשיטים",
+    description: "תכשיטים, שעונים ואביזרי אופנה",
+    icon: Gem,
+    count: "2,156",
+    color: "bg-pink-500",
+    subcategories: [
+      { name: "שרשראות", count: "892", icon: Gem },
+      { name: "עגילים", count: "567", icon: Gem },
+      { name: "שעונים", count: "697", icon: Gem }
+    ]
   }
 ];
 

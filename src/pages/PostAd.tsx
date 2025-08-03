@@ -21,7 +21,8 @@ const categories = {
     { value: "electronics", label: "אלקטרוניקה", subcategories: ["מחשבים", "טלפונים", "טלוויזיות", "קונסולות"] },
     { value: "furniture", label: "רהיטים", subcategories: ["סלון", "חדר שינה", "מטבח", "משרד"] },
     { value: "jobs", label: "עבודה", subcategories: ["משרות מלאות", "משרות חלקיות", "פרילנס", "סטאז׳"] },
-    { value: "services", label: "שירותים", subcategories: ["ניקיון", "שיפוצים", "גינון", "חינוך"] }
+    { value: "services", label: "שירותים", subcategories: ["ניקיון", "שיפוצים", "גינון", "חינוך"] },
+    { value: "jewelry", label: "תכשיטים", subcategories: ["שרשראות", "עגילים", "שעונים", "צמידים"] }
   ],
   en: [
     { value: "real-estate", label: "Real Estate", subcategories: ["Apartments for Sale", "Apartments for Rent", "Houses for Sale", "Land"] },
@@ -29,7 +30,8 @@ const categories = {
     { value: "electronics", label: "Electronics", subcategories: ["Computers", "Phones", "TVs", "Consoles"] },
     { value: "furniture", label: "Furniture", subcategories: ["Living Room", "Bedroom", "Kitchen", "Office"] },
     { value: "jobs", label: "Jobs", subcategories: ["Full Time", "Part Time", "Freelance", "Internship"] },
-    { value: "services", label: "Services", subcategories: ["Cleaning", "Renovations", "Gardening", "Education"] }
+    { value: "services", label: "Services", subcategories: ["Cleaning", "Renovations", "Gardening", "Education"] },
+    { value: "jewelry", label: "Jewelry", subcategories: ["Necklaces", "Earrings", "Watches", "Bracelets"] }
   ]
 }
 
