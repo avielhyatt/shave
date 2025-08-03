@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { useAuth } from "@/contexts/AuthContext"
 import { supabase } from "@/integrations/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -50,7 +51,9 @@ const israeliCities = [
 ]
 
 export default function Browse() {
+  const { user } = useAuth()
   const [listings, setListings] = useState<Listing[]>([])
+  const [favorites, setFavorites] = useState<string[]>([])
   const [filteredListings, setFilteredListings] = useState<Listing[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState("")
@@ -62,7 +65,10 @@ export default function Browse() {
 
   useEffect(() => {
     fetchListings()
-  }, [])
+    if (user) {
+      fetchUserFavorites()
+    }
+  }, [user])
 
   useEffect(() => {
     filterListings()
@@ -87,6 +93,73 @@ export default function Browse() {
       })
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchUserFavorites = async () => {
+    if (!user) return
+    
+    try {
+      const { data, error } = await supabase
+        .from('favorites')
+        .select('listing_id')
+        .eq('user_id', user.id)
+
+      if (error) throw error
+      setFavorites(data?.map(f => f.listing_id) || [])
+    } catch (error) {
+      console.error('Error fetching favorites:', error)
+    }
+  }
+
+  const toggleFavorite = async (listingId: string) => {
+    if (!user) {
+      toast({
+        title: "נדרשת התחברות",
+        description: "יש להתחבר כדי לשמור מועדפים",
+        variant: "destructive"
+      })
+      return
+    }
+
+    const isFavorite = favorites.includes(listingId)
+
+    try {
+      if (isFavorite) {
+        const { error } = await supabase
+          .from('favorites')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('listing_id', listingId)
+
+        if (error) throw error
+        setFavorites(favorites.filter(id => id !== listingId))
+        toast({
+          title: "הוסר מהמועדפים",
+          description: "המודעה הוסרה מרשימת המועדפים שלך"
+        })
+      } else {
+        const { error } = await supabase
+          .from('favorites')
+          .insert({
+            user_id: user.id,
+            listing_id: listingId
+          })
+
+        if (error) throw error
+        setFavorites([...favorites, listingId])
+        toast({
+          title: "נוסף למועדפים",
+          description: "המודעה נשמרה ברשימת המועדפים שלך"
+        })
+      }
+    } catch (error) {
+      console.error('Error toggling favorite:', error)
+      toast({
+        title: "שגיאה",
+        description: "לא הצלחנו לעדכן את המועדפים",
+        variant: "destructive"
+      })
     }
   }
 
@@ -343,8 +416,13 @@ export default function Browse() {
                       <Phone className="w-4 h-4 ml-2" />
                       צור קשר
                     </Button>
-                    <Button variant="outline" size="icon">
-                      <Heart className="w-4 h-4" />
+                    <Button 
+                      variant="outline" 
+                      size="icon"
+                      onClick={() => toggleFavorite(listing.id)}
+                      className={favorites.includes(listing.id) ? "text-red-500" : ""}
+                    >
+                      <Heart className={`w-4 h-4 ${favorites.includes(listing.id) ? "fill-current" : ""}`} />
                     </Button>
                   </CardFooter>
                 </Card>

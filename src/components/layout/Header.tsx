@@ -54,16 +54,20 @@ export const Header = () => {
                     פרסום מודעה
                   </Link>
                 </Button>
-                <Button variant="ghost" size="sm" className="hebrew-text relative">
-                  <MessageCircle className="w-4 h-4 ml-2" />
-                  הודעות
-                  <Badge className="absolute -top-1 -left-1 h-5 w-5 p-0 text-xs bg-destructive">
-                    3
-                  </Badge>
+                <Button variant="ghost" size="sm" className="hebrew-text relative" asChild>
+                  <Link to="/messages">
+                    <MessageCircle className="w-4 h-4 ml-2" />
+                    הודעות
+                    <Badge className="absolute -top-1 -left-1 h-5 w-5 p-0 text-xs bg-destructive">
+                      3
+                    </Badge>
+                  </Link>
                 </Button>
-                <Button variant="ghost" size="sm" className="hebrew-text">
-                  <Heart className="w-4 h-4 ml-2" />
-                  מועדפים
+                <Button variant="ghost" size="sm" className="hebrew-text" asChild>
+                  <Link to="/favorites">
+                    <Heart className="w-4 h-4 ml-2" />
+                    מועדפים
+                  </Link>
                 </Button>
                 <Button variant="ghost" size="sm" className="hebrew-text" asChild>
                   <Link to="/dashboard">
@@ -118,13 +122,17 @@ export const Header = () => {
                           פרסום מודעה
                         </Link>
                       </Button>
-                      <Button variant="ghost" className="justify-start">
-                        <MessageCircle className="w-4 h-4 ml-2" />
-                        הודעות
+                      <Button variant="ghost" className="justify-start" asChild>
+                        <Link to="/messages">
+                          <MessageCircle className="w-4 h-4 ml-2" />
+                          הודעות
+                        </Link>
                       </Button>
-                      <Button variant="ghost" className="justify-start">
-                        <Heart className="w-4 h-4 ml-2" />
-                        מועדפים
+                      <Button variant="ghost" className="justify-start" asChild>
+                        <Link to="/favorites">
+                          <Heart className="w-4 h-4 ml-2" />
+                          מועדפים
+                        </Link>
                       </Button>
                       <Button variant="ghost" className="justify-start" asChild>
                         <Link to="/dashboard">
