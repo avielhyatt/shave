@@ -68,7 +68,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       await supabase
         .from('profiles')
         .insert({
-          id: data.user.id,
+          user_id: data.user.id,
           email,
           phone,
           full_name: fullName
