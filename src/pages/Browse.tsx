@@ -37,7 +37,8 @@ const categories = [
   { value: "electronics", label: "אלקטרוניקה" },
   { value: "furniture", label: "רהיטים" },
   { value: "jobs", label: "עבודה" },
-  { value: "services", label: "שירותים" }
+  { value: "services", label: "שירותים" },
+  { value: "jewelry", label: "תכשיטים" }
 ]
 
 const israeliCities = [

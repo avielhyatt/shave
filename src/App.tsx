@@ -11,6 +11,7 @@ import Messages from "./pages/Messages";
 import Favorites from "./pages/Favorites";
 import Dashboard from "./pages/Dashboard";
 import PostAd from "./pages/PostAd";
+import EditListing from "./pages/EditListing";
 import Notifications from "./pages/Notifications";
 import NotFound from "./pages/NotFound";
 
@@ -31,6 +32,7 @@ const App = () => (
             <Route path="/favorites" element={<Favorites />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/post-ad" element={<PostAd />} />
+            <Route path="/edit-listing/:id" element={<EditListing />} />
             <Route path="/notifications" element={<Notifications />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />

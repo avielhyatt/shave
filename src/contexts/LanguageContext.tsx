@@ -179,6 +179,16 @@ const translations = {
     'postAd.success.title': 'המודעה פורסמה בהצלחה!',
     'postAd.success.description': 'המודעה שלך עלתה לאוויר ונראית לכל המשתמשים',
     'postAd.error.title': 'שגיאה בפרסום המודעה',
+    
+    // EditListing
+    'editListing.title': 'עריכת מודעה',
+    'editListing.save': 'שמור שינויים',
+    'editListing.loading': 'טוען מודעה...',
+    'editListing.notFound': 'מודעה לא נמצאה',
+    'editListing.notFoundDesc': 'המודעה לא נמצאה או שאין לך הרשאה לערוך אותה',
+    'editListing.success': 'המודעה עודכנה בהצלחה',
+    'editListing.successDesc': 'השינויים נשמרו בהצלחה',
+    'editListing.error': 'שגיאה בעדכון המודעה'
   },
   en: {
     // Header
@@ -348,6 +358,16 @@ const translations = {
     'postAd.success.title': 'Ad posted successfully!',
     'postAd.success.description': 'Your ad is now live and visible to all users',
     'postAd.error.title': 'Error posting ad',
+    
+    // EditListing
+    'editListing.title': 'Edit Listing',
+    'editListing.save': 'Save Changes',
+    'editListing.loading': 'Loading listing...',
+    'editListing.notFound': 'Listing not found',
+    'editListing.notFoundDesc': 'The listing was not found or you don\'t have permission to edit it',
+    'editListing.success': 'Listing updated successfully',
+    'editListing.successDesc': 'Your changes have been saved successfully',
+    'editListing.error': 'Error updating listing'
   }
 }
 

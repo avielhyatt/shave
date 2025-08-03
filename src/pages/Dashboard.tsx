@@ -160,8 +160,15 @@ export default function Dashboard() {
                               <div className="flex items-start justify-between">
                                 <h3 className="font-semibold line-clamp-2">{listing.title}</h3>
                                 <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                  <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
-                                    <Edit className="w-4 h-4" />
+                                  <Button 
+                                    size="sm" 
+                                    variant="ghost" 
+                                    className="h-8 w-8 p-0"
+                                    asChild
+                                  >
+                                    <Link to={`/edit-listing/${listing.id}`}>
+                                      <Edit className="w-4 h-4" />
+                                    </Link>
                                   </Button>
                                   <Button 
                                     size="sm" 
