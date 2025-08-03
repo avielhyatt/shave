@@ -187,7 +187,7 @@ export default function PostAd() {
               <h2 className={`text-xl font-semibold mb-4 ${direction === 'rtl' ? 'hebrew-text' : ''}`}>
                 {t('postAd.benefits.title')}
               </h2>
-              <ul className={`${direction === 'rtl' ? 'text-right' : 'text-left'} space-y-3 mb-6 ${direction === 'rtl' ? 'hebrew-text' : ''}`}>
+              <ul className={`${direction === 'rtl' ? 'text-right' : 'text-left'} space-y-3 mb-6 ${direction === 'rtl' ? 'hebrew-text' : ''}`} dir={direction}>
                 <li>✓ {t('postAd.benefits.unlimited')}</li>
                 <li>✓ {t('postAd.benefits.dashboard')}</li>
                 <li>✓ {t('postAd.benefits.messages')}</li>
