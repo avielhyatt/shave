@@ -26,7 +26,7 @@ interface Listing {
 
 export default function Dashboard() {
   const { user, signOut } = useAuth()
-  const { t, direction } = useLanguage()
+  const { t, direction, language } = useLanguage()
   const [listings, setListings] = useState<Listing[]>([])
   const [loading, setLoading] = useState(true)
   const navigate = useNavigate()
@@ -247,18 +247,21 @@ export default function Dashboard() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div>
-                    <h3 className="font-semibold mb-2" dir={direction}>{t('dashboard.accountDetails')}</h3>
-                    <p className="text-sm text-muted-foreground" dir={direction}>{t('dashboard.email')}: {user.email}</p>
-                    <p className="text-sm text-muted-foreground" dir={direction}>
-                      {t('dashboard.joined')}: {new Date(user.created_at).toLocaleDateString(direction === 'rtl' ? 'he-IL' : 'en-US')}
-                    </p>
-                  </div>
-                  <div className="pt-4 border-t">
-                    <Button variant="destructive" onClick={handleSignOut} dir={direction}>
-                      {t('dashboard.signOutAccount')}
-                    </Button>
-                  </div>
+                <div>
+                  <h3 className="font-semibold mb-2" dir={direction}>{t('dashboard.accountDetails')}</h3>
+                  <p className="text-sm text-muted-foreground" dir={direction}>{t('dashboard.email')}: {user.email}</p>
+                  <p className="text-sm text-muted-foreground" dir={direction}>
+                    {t('dashboard.joined')}: {new Date(user.created_at).toLocaleDateString(direction === 'rtl' ? 'he-IL' : 'en-US')}
+                  </p>
+                </div>
+                <div className="pt-4 border-t space-y-2">
+                  <Button variant="outline" onClick={() => navigate('/profile')} className="w-full" dir={direction}>
+                    {language === 'he' ? 'ערוך פרופיל' : 'Edit Profile'}
+                  </Button>
+                  <Button variant="destructive" onClick={handleSignOut} dir={direction}>
+                    {t('dashboard.signOutAccount')}
+                  </Button>
+                </div>
                 </CardContent>
               </Card>
             </TabsContent>

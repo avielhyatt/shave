@@ -12,6 +12,7 @@ import Favorites from "./pages/Favorites";
 import Dashboard from "./pages/Dashboard";
 import PostAd from "./pages/PostAd";
 import EditListing from "./pages/EditListing";
+import Profile from "./pages/Profile";
 import Notifications from "./pages/Notifications";
 import Help from "./pages/Help";
 import About from "./pages/About";
@@ -35,9 +36,10 @@ const App = () => (
             <Route path="/browse" element={<Browse />} />
             <Route path="/messages" element={<Messages />} />
             <Route path="/favorites" element={<Favorites />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/post-ad" element={<PostAd />} />
-            <Route path="/edit-listing/:id" element={<EditListing />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/post-ad" element={<PostAd />} />
+          <Route path="/edit-listing/:id" element={<EditListing />} />
+          <Route path="/profile" element={<Profile />} />
             <Route path="/notifications" element={<Notifications />} />
             <Route path="/help" element={<Help />} />
             <Route path="/about" element={<About />} />
