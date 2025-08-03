@@ -3,7 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel"
-import { MapPin, Phone, Mail, Heart, Eye, Calendar, User } from "lucide-react"
+import { MapPin, Phone, Mail, Heart, Eye, Calendar, User, ChevronLeft, ChevronRight } from "lucide-react"
 import { useLanguage } from "@/contexts/LanguageContext"
 
 interface Listing {
@@ -140,38 +140,30 @@ export const ListingModal = ({
                     <>
                       {/* Custom navigation buttons with RTL support */}
                       <button
-                        onClick={direction === 'rtl' ? scrollNext : scrollPrev}
+                        onClick={scrollPrev}
                         className={`absolute top-1/2 -translate-y-1/2 ${
                           direction === 'rtl' ? 'right-4' : 'left-4'
-                        } z-10 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-all duration-200 backdrop-blur-sm`}
-                        aria-label={direction === 'rtl' ? "תמונה הבאה" : "תמונה קודמת"}
+                        } z-10 bg-black/50 hover:bg-black/70 text-white rounded-full p-3 opacity-0 group-hover:opacity-100 transition-all duration-200 backdrop-blur-sm hover:scale-110`}
+                        aria-label="תמונה קודמת"
                       >
                         {direction === 'rtl' ? (
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                          </svg>
+                          <ChevronRight className="w-5 h-5" />
                         ) : (
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                          </svg>
+                          <ChevronLeft className="w-5 h-5" />
                         )}
                       </button>
                       
                       <button
-                        onClick={direction === 'rtl' ? scrollPrev : scrollNext}
+                        onClick={scrollNext}
                         className={`absolute top-1/2 -translate-y-1/2 ${
                           direction === 'rtl' ? 'left-4' : 'right-4'
-                        } z-10 bg-black/50 hover:bg-black/70 text-white rounded-full p-2 opacity-0 group-hover:opacity-100 transition-all duration-200 backdrop-blur-sm`}
-                        aria-label={direction === 'rtl' ? "תמונה קודמת" : "תמונה הבאה"}
+                        } z-10 bg-black/50 hover:bg-black/70 text-white rounded-full p-3 opacity-0 group-hover:opacity-100 transition-all duration-200 backdrop-blur-sm hover:scale-110`}
+                        aria-label="תמונה הבאה"
                       >
                         {direction === 'rtl' ? (
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
+                          <ChevronLeft className="w-5 h-5" />
                         ) : (
-                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
+                          <ChevronRight className="w-5 h-5" />
                         )}
                       </button>
                       
