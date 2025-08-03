@@ -183,7 +183,7 @@ export default function PostAd() {
             <p className={`text-muted-foreground mb-8 ${direction === 'rtl' ? 'hebrew-text' : ''}`}>
               {t('postAd.loginMessage')}
             </p>
-            <div className="bg-card p-8 rounded-lg shadow-sm">
+            <div className={`bg-card p-8 rounded-lg shadow-sm ${direction === 'rtl' ? 'text-right' : 'text-left'}`} dir={direction}>
               <h2 className={`text-xl font-semibold mb-4 ${direction === 'rtl' ? 'hebrew-text' : ''}`}>
                 {t('postAd.benefits.title')}
               </h2>
