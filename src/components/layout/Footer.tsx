@@ -3,7 +3,6 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
-import shaveliLogo from "@/assets/shaveli-thumbs-logo.png";
 
 export const Footer = () => {
   const footerSections = [
@@ -30,7 +29,7 @@ export const Footer = () => {
       ]
     },
     {
-      title: "שווה לי",
+      title: "שווה",
       links: [
         { name: "אודותינו", path: "/about" },
         { name: "משרות פנויות", path: "/contact" },
@@ -114,7 +113,7 @@ export const Footer = () => {
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-primary" />
-                <span className="ltr">support@shaveli.co.il</span>
+                <span className="ltr">support@shave.co.il</span>
               </div>
               <div className="flex items-center gap-3">
                 <MapPin className="w-4 h-4 text-primary" />
@@ -147,14 +146,14 @@ export const Footer = () => {
         {/* Bottom Section */}
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg overflow-hidden">
-              <img src={shaveliLogo} alt="Shaveli Logo" className="w-full h-full object-cover" />
+            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
+              <span className="text-primary-foreground font-bold text-lg">ש</span>
             </div>
-            <span className="text-2xl font-bold text-primary hebrew-text">Shave.Li</span>
+            <span className="text-2xl font-bold text-primary hebrew-text">שווה</span>
           </div>
           
           <p className="text-muted-foreground text-center hebrew-text">
-            © 2025 שווה לי - כל הזכויות שמורות. פותח בישראל עבור הקהילה הישראלית
+            © 2024 שווה - כל הזכויות שמורות. פותח בישראל עבור הקהילה הישראלית
           </p>
           
           <div className="text-sm text-muted-foreground ltr">

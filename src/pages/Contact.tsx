@@ -20,7 +20,7 @@ export default function Contact() {
     {
       icon: <Mail className="w-6 h-6" />,
       title: "אימייל",
-      value: "support@shaveli.co.il",
+      value: "support@shave.co.il",
       description: "מענה תוך 24 שעות"
     },
     {
@@ -35,19 +35,19 @@ export default function Contact() {
     {
       icon: <Users className="w-6 h-6" />,
       title: "תמיכה טכנית",
-      email: "tech@shaveli.co.il",
+      email: "tech@shave.co.il",
       description: "בעיות טכניות, שגיאות באתר"
     },
     {
       icon: <MessageSquare className="w-6 h-6" />,
       title: "שירות לקוחות",
-      email: "support@shaveli.co.il", 
+      email: "support@shave.co.il", 
       description: "שאלות כלליות, עזרה בשימוש"
     },
     {
       icon: <Users className="w-6 h-6" />,
       title: "מכירות ושותפויות",
-      email: "sales@shaveli.co.il",
+      email: "sales@shave.co.il",
       description: "הצעות עסקיות, פרסום"
     }
   ];
