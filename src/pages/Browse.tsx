@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Header } from "@/components/layout/Header"
 import { Footer } from "@/components/layout/Footer"
+import { ListingModal } from "@/components/listing/ListingModal"
 import { Search, Filter, MapPin, Heart, Phone, Mail, Eye } from "lucide-react"
 import { Link, useSearchParams } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
@@ -70,6 +71,8 @@ export default function Browse() {
   const [selectedLocation, setSelectedLocation] = useState("all")
   const [priceRange, setPriceRange] = useState({ min: "", max: "" })
   const [sortBy, setSortBy] = useState("newest")
+  const [selectedListing, setSelectedListing] = useState<Listing | null>(null)
+  const [isModalOpen, setIsModalOpen] = useState(false)
   const { toast } = useToast()
 
   useEffect(() => {
@@ -250,6 +253,16 @@ export default function Browse() {
     }
   }
 
+  const handleListingClick = (listing: Listing) => {
+    setSelectedListing(listing)
+    setIsModalOpen(true)
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setSelectedListing(null)
+  }
+
   return (
     <div className={`min-h-screen bg-background ${direction === 'rtl' ? 'rtl' : ''}`} dir={direction}>
       <Header />
@@ -381,7 +394,11 @@ export default function Browse() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredListings.map((listing) => (
-                <Card key={listing.id} className="group hover:shadow-lg transition-shadow overflow-hidden">
+                <Card 
+                  key={listing.id} 
+                  className="group hover:shadow-lg transition-shadow overflow-hidden cursor-pointer"
+                  onClick={() => handleListingClick(listing)}
+                >
                   {/* Image */}
                   <div className="aspect-video bg-muted overflow-hidden">
                     {listing.images.length > 0 ? (
@@ -434,7 +451,10 @@ export default function Browse() {
                   <CardFooter className="p-4 pt-0 flex gap-2">
                     <Button 
                       className="flex-1" 
-                      onClick={() => handleContactSeller(listing)}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        handleContactSeller(listing)
+                      }}
                       dir={direction}
                     >
                       <Phone className={`w-4 h-4 ${direction === 'rtl' ? 'ml-2' : 'mr-2'}`} />
@@ -443,7 +463,10 @@ export default function Browse() {
                     <Button 
                       variant="outline" 
                       size="icon"
-                      onClick={() => toggleFavorite(listing.id)}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        toggleFavorite(listing.id)
+                      }}
                       className={favorites.includes(listing.id) ? "text-red-500" : ""}
                     >
                       <Heart className={`w-4 h-4 ${favorites.includes(listing.id) ? "fill-current" : ""}`} />
@@ -454,6 +477,16 @@ export default function Browse() {
             </div>
           )}
         </div>
+
+        {/* Listing Modal */}
+        <ListingModal
+          listing={selectedListing}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          onContactSeller={handleContactSeller}
+          onToggleFavorite={toggleFavorite}
+          isFavorite={selectedListing ? favorites.includes(selectedListing.id) : false}
+        />
       </main>
 
       <Footer />
