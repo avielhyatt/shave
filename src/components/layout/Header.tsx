@@ -7,13 +7,63 @@ import { AuthModal } from "@/components/auth/AuthModal";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Header = () => {
   const { user } = useAuth();
   const { t, direction } = useLanguage();
   const [authModalOpen, setAuthModalOpen] = useState(false);
+  const [unreadMessagesCount, setUnreadMessagesCount] = useState(0);
+
+  useEffect(() => {
+    if (user) {
+      fetchUnreadMessagesCount();
+      
+      // Set up real-time updates for new messages
+      const channel = supabase
+        .channel('messages-changes')
+        .on(
+          'postgres_changes',
+          {
+            event: '*',
+            schema: 'public',
+            table: 'messages',
+            filter: `receiver_id=eq.${user.id}`
+          },
+          () => {
+            fetchUnreadMessagesCount();
+          }
+        )
+        .subscribe();
+
+      return () => {
+        supabase.removeChannel(channel);
+      };
+    }
+  }, [user]);
+
+  const fetchUnreadMessagesCount = async () => {
+    if (!user) return;
+    
+    try {
+      const { count, error } = await supabase
+        .from('messages')
+        .select('*', { count: 'exact', head: true })
+        .eq('receiver_id', user.id)
+        .is('read_at', null);
+
+      if (error) {
+        console.error('Error fetching unread messages count:', error);
+        return;
+      }
+
+      setUnreadMessagesCount(count || 0);
+    } catch (error) {
+      console.error('Error fetching unread messages count:', error);
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -72,9 +122,11 @@ export const Header = () => {
                   <Link to="/messages">
                     <MessageCircle className="w-4 h-4 ml-2" />
                     {t('nav.messages')}
-                    <Badge className="absolute -top-1 -left-1 h-5 w-5 p-0 text-xs bg-destructive">
-                      3
-                    </Badge>
+                    {unreadMessagesCount > 0 && (
+                      <Badge className="absolute -top-1 -left-1 h-5 w-5 p-0 text-xs bg-destructive">
+                        {unreadMessagesCount > 99 ? '99+' : unreadMessagesCount}
+                      </Badge>
+                    )}
                   </Link>
                 </Button>
                 <Button variant="ghost" size="sm" asChild>
@@ -139,10 +191,15 @@ export const Header = () => {
                           {t('nav.post')}
                         </Link>
                       </Button>
-                      <Button variant="ghost" className="justify-start" asChild>
+                      <Button variant="ghost" className="justify-start relative" asChild>
                         <Link to="/messages">
                           <MessageCircle className="w-4 h-4 ml-2" />
                           {t('nav.messages')}
+                          {unreadMessagesCount > 0 && (
+                            <Badge className="absolute top-1 left-1 h-4 w-4 p-0 text-xs bg-destructive">
+                              {unreadMessagesCount > 9 ? '9+' : unreadMessagesCount}
+                            </Badge>
+                          )}
                         </Link>
                       </Button>
                       <Button variant="ghost" className="justify-start" asChild>
