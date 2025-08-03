@@ -3,8 +3,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
+import { AuthModal } from "@/components/auth/AuthModal";
+import { useAuth } from "@/contexts/AuthContext";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export const Header = () => {
+  const { user } = useAuth();
+  const [authModalOpen, setAuthModalOpen] = useState(false);
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4">
@@ -33,25 +40,43 @@ export const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-2">
-            <Button variant="ghost" size="sm" className="hebrew-text">
-              <Plus className="w-4 h-4 ml-2" />
-              פרסום מודעה
-            </Button>
-            <Button variant="ghost" size="sm" className="hebrew-text relative">
-              <MessageCircle className="w-4 h-4 ml-2" />
-              הודעות
-              <Badge className="absolute -top-1 -left-1 h-5 w-5 p-0 text-xs bg-destructive">
-                3
-              </Badge>
-            </Button>
-            <Button variant="ghost" size="sm" className="hebrew-text">
-              <Heart className="w-4 h-4 ml-2" />
-              מועדפים
-            </Button>
-            <Button variant="ghost" size="sm" className="hebrew-text">
-              <User className="w-4 h-4 ml-2" />
-              התחברות
-            </Button>
+            {user ? (
+              <>
+                <Button variant="ghost" size="sm" className="hebrew-text" asChild>
+                  <Link to="/post-ad">
+                    <Plus className="w-4 h-4 ml-2" />
+                    פרסום מודעה
+                  </Link>
+                </Button>
+                <Button variant="ghost" size="sm" className="hebrew-text relative">
+                  <MessageCircle className="w-4 h-4 ml-2" />
+                  הודעות
+                  <Badge className="absolute -top-1 -left-1 h-5 w-5 p-0 text-xs bg-destructive">
+                    3
+                  </Badge>
+                </Button>
+                <Button variant="ghost" size="sm" className="hebrew-text">
+                  <Heart className="w-4 h-4 ml-2" />
+                  מועדפים
+                </Button>
+                <Button variant="ghost" size="sm" className="hebrew-text" asChild>
+                  <Link to="/dashboard">
+                    <User className="w-4 h-4 ml-2" />
+                    הדשבורד שלי
+                  </Link>
+                </Button>
+              </>
+            ) : (
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                className="hebrew-text"
+                onClick={() => setAuthModalOpen(true)}
+              >
+                <User className="w-4 h-4 ml-2" />
+                התחברות
+              </Button>
+            )}
           </nav>
 
           {/* Mobile Menu */}
@@ -73,28 +98,47 @@ export const Header = () => {
                 </div>
                 
                 <div className="flex flex-col gap-2">
-                  <Button variant="ghost" className="justify-start">
-                    <Plus className="w-4 h-4 ml-2" />
-                    פרסום מודעה
-                  </Button>
-                  <Button variant="ghost" className="justify-start">
-                    <MessageCircle className="w-4 h-4 ml-2" />
-                    הודעות
-                  </Button>
-                  <Button variant="ghost" className="justify-start">
-                    <Heart className="w-4 h-4 ml-2" />
-                    מועדפים
-                  </Button>
-                  <Button variant="ghost" className="justify-start">
-                    <User className="w-4 h-4 ml-2" />
-                    התחברות
-                  </Button>
+                  {user ? (
+                    <>
+                      <Button variant="ghost" className="justify-start" asChild>
+                        <Link to="/post-ad">
+                          <Plus className="w-4 h-4 ml-2" />
+                          פרסום מודעה
+                        </Link>
+                      </Button>
+                      <Button variant="ghost" className="justify-start">
+                        <MessageCircle className="w-4 h-4 ml-2" />
+                        הודעות
+                      </Button>
+                      <Button variant="ghost" className="justify-start">
+                        <Heart className="w-4 h-4 ml-2" />
+                        מועדפים
+                      </Button>
+                      <Button variant="ghost" className="justify-start" asChild>
+                        <Link to="/dashboard">
+                          <User className="w-4 h-4 ml-2" />
+                          הדשבורד שלי
+                        </Link>
+                      </Button>
+                    </>
+                  ) : (
+                    <Button 
+                      variant="ghost" 
+                      className="justify-start"
+                      onClick={() => setAuthModalOpen(true)}
+                    >
+                      <User className="w-4 h-4 ml-2" />
+                      התחברות
+                    </Button>
+                  )}
                 </div>
               </div>
             </SheetContent>
           </Sheet>
         </div>
       </div>
+      
+      <AuthModal open={authModalOpen} onOpenChange={setAuthModalOpen} />
     </header>
   );
 };
