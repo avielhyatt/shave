@@ -3,6 +3,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { Sparkles, TrendingUp, Clock, Users } from "lucide-react";
+import { useState } from "react";
+import { PricingModal } from "@/components/pricing/PricingModal";
 
 const promotions = [
   {
@@ -32,6 +34,8 @@ const promotions = [
 ];
 
 export const PromotionsSection = () => {
+  const [showPricing, setShowPricing] = useState(false);
+
   return (
     <section className="py-16 bg-gradient-to-b from-background to-muted/30">
       <div className="container mx-auto px-4">
@@ -58,11 +62,20 @@ export const PromotionsSection = () => {
                   <p className="text-muted-foreground mb-6 hebrew-text leading-relaxed">
                     {promo.description}
                   </p>
-                  <Button className={`${promo.color} text-white border-0 hover:opacity-90`} asChild>
-                    <Link to={promo.id === 1 ? "/post-ad" : promo.id === 2 ? "/notifications" : "/messages"}>
+                  {promo.id === 1 ? (
+                    <Button 
+                      className={`${promo.color} text-white border-0 hover:opacity-90`}
+                      onClick={() => setShowPricing(true)}
+                    >
                       {promo.cta}
-                    </Link>
-                  </Button>
+                    </Button>
+                  ) : (
+                    <Button className={`${promo.color} text-white border-0 hover:opacity-90`} asChild>
+                      <Link to={promo.id === 2 ? "/notifications" : "/messages"}>
+                        {promo.cta}
+                      </Link>
+                    </Button>
+                  )}
                 </CardContent>
               </Card>
             );
@@ -91,6 +104,11 @@ export const PromotionsSection = () => {
           </div>
         </div>
       </div>
+      
+      <PricingModal 
+        isOpen={showPricing} 
+        onClose={() => setShowPricing(false)} 
+      />
     </section>
   );
 };
