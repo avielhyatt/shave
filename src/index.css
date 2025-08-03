@@ -176,6 +176,16 @@
   margin-left: auto;
 }
 
+/* Custom scrollbar styles for thumbnail gallery */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
 /* Scrollbar RTL Support */
 .rtl ::-webkit-scrollbar {
   width: 8px;
