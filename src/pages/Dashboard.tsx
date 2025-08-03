@@ -256,7 +256,7 @@ export default function Dashboard() {
                 </div>
                 <div className="pt-4 border-t space-y-2">
                   <Button variant="outline" onClick={() => navigate('/profile')} className="w-full" dir={direction}>
-                    {language === 'he' ? 'ערוך פרופיל' : 'Edit Profile'}
+                    {direction === 'rtl' ? 'ערוך פרופיל' : 'Edit Profile'}
                   </Button>
                   <Button variant="destructive" onClick={handleSignOut} dir={direction}>
                     {t('dashboard.signOutAccount')}
