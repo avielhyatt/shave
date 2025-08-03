@@ -157,7 +157,6 @@ export default function Privacy() {
             </div>
           </CardContent>
         </Card>
-        </Card>
       </div>
       <Footer />
     </>

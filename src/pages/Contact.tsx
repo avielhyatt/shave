@@ -177,7 +177,6 @@ export default function Contact() {
             </Button>
           </CardContent>
         </Card>
-        </Card>
       </div>
       <Footer />
     </>

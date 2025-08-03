@@ -128,7 +128,6 @@ export default function Terms() {
             </div>
           </CardContent>
         </Card>
-        </Card>
       </div>
       <Footer />
     </>
