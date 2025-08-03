@@ -10,7 +10,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Header } from "@/components/layout/Header"
 import { Footer } from "@/components/layout/Footer"
 import { ListingModal } from "@/components/listing/ListingModal"
-import { Search, Filter, MapPin, Heart, Phone, Mail, Eye } from "lucide-react"
+import { TinderView } from "@/components/marketplace/TinderView"
+import { Search, Filter, MapPin, Heart, Phone, Mail, Eye, Zap } from "lucide-react"
 import { Link, useSearchParams } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
 
@@ -73,6 +74,7 @@ export default function Browse() {
   const [sortBy, setSortBy] = useState("newest")
   const [selectedListing, setSelectedListing] = useState<Listing | null>(null)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [showTinderView, setShowTinderView] = useState(false)
   const { toast } = useToast()
 
   useEffect(() => {
@@ -263,6 +265,29 @@ export default function Browse() {
     setSelectedListing(null)
   }
 
+  const updateViewCount = async (listingId: string) => {
+    try {
+      await supabase.rpc('increment_view_count', { listing_id: listingId })
+    } catch (error) {
+      console.error('Error updating view count:', error)
+    }
+  }
+
+  const enhancedHandleListingClick = (listing: Listing) => {
+    updateViewCount(listing.id)
+    handleListingClick(listing)
+  }
+
+  if (showTinderView) {
+    return (
+      <TinderView 
+        listings={filteredListings}
+        onBack={() => setShowTinderView(false)}
+        onContactSeller={handleContactSeller}
+      />
+    )
+  }
+
   return (
     <div className={`min-h-screen bg-background ${direction === 'rtl' ? 'rtl' : ''}`} dir={direction}>
       <Header />
@@ -348,9 +373,19 @@ export default function Browse() {
             <h1 className="text-2xl font-bold" dir={direction}>
               {t('browse.found')} {filteredListings.length} {t('browse.ads')}
             </h1>
-            <Button asChild>
-              <Link to="/post-ad" dir={direction}>{t('browse.postNewAd')}</Link>
-            </Button>
+            <div className="flex gap-2">
+              <Button 
+                variant="outline"
+                onClick={() => setShowTinderView(true)}
+                className="bg-gradient-to-r from-pink-500 to-red-500 text-white border-0 hover:from-pink-600 hover:to-red-600"
+              >
+                <Zap className="w-4 h-4 mr-2" />
+                מוד Marketplace
+              </Button>
+              <Button asChild>
+                <Link to="/post-ad" dir={direction}>{t('browse.postNewAd')}</Link>
+              </Button>
+            </div>
           </div>
 
           {/* Listings Grid */}
@@ -397,7 +432,7 @@ export default function Browse() {
                 <Card 
                   key={listing.id} 
                   className="group hover:shadow-lg transition-shadow overflow-hidden cursor-pointer"
-                  onClick={() => handleListingClick(listing)}
+                  onClick={() => enhancedHandleListingClick(listing)}
                 >
                   {/* Image */}
                   <div className="aspect-video bg-muted overflow-hidden">
@@ -449,17 +484,36 @@ export default function Browse() {
                   </CardContent>
 
                   <CardFooter className="p-4 pt-0 flex gap-2">
-                    <Button 
-                      className="flex-1" 
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        handleContactSeller(listing)
-                      }}
-                      dir={direction}
-                    >
-                      <Phone className={`w-4 h-4 ${direction === 'rtl' ? 'ml-2' : 'mr-2'}`} />
-                      {t('browse.contact')}
-                    </Button>
+                    {user ? (
+                      <Button 
+                        className="flex-1" 
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          handleContactSeller(listing)
+                        }}
+                        dir={direction}
+                      >
+                        <Phone className={`w-4 h-4 ${direction === 'rtl' ? 'ml-2' : 'mr-2'}`} />
+                        {t('browse.contact')}
+                      </Button>
+                    ) : (
+                      <Button 
+                        variant="outline"
+                        className="flex-1" 
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          toast({
+                            title: "נדרשת התחברות",
+                            description: "כדי לראות פרטי יצירת קשר יש להתחבר למערכת",
+                            variant: "destructive"
+                          })
+                        }}
+                        dir={direction}
+                      >
+                        <Phone className={`w-4 h-4 ${direction === 'rtl' ? 'ml-2' : 'mr-2'}`} />
+                        {t('browse.contact')}
+                      </Button>
+                    )}
                     <Button 
                       variant="outline" 
                       size="icon"
