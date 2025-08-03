@@ -2,6 +2,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Users, Target, Heart, Award, TrendingUp, Shield } from "lucide-react";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 export default function About() {
   const { direction } = useLanguage();
@@ -55,7 +57,9 @@ export default function About() {
   ];
 
   return (
-    <div className="min-h-screen bg-background" dir={direction}>
+    <>
+      <Header />
+      <div className="min-h-screen bg-background" dir={direction}>
       <div className="container mx-auto px-4 py-8">
         {/* Hero Section */}
         <div className="text-center mb-16">
@@ -154,7 +158,9 @@ export default function About() {
             </Button>
           </CardContent>
         </Card>
+        </Card>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }

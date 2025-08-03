@@ -1,6 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Shield, Lock, Eye, UserCheck, Settings, Trash2 } from "lucide-react";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
 
 export default function Privacy() {
   const { direction } = useLanguage();
@@ -69,7 +71,9 @@ export default function Privacy() {
   ];
 
   return (
-    <div className="min-h-screen bg-background" dir={direction}>
+    <>
+      <Header />
+      <div className="min-h-screen bg-background" dir={direction}>
       <div className="container mx-auto px-4 py-8 max-w-4xl">
         {/* Header */}
         <div className="text-center mb-12">
@@ -153,7 +157,9 @@ export default function Privacy() {
             </div>
           </CardContent>
         </Card>
+        </Card>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 }
