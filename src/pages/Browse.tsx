@@ -30,6 +30,7 @@ interface Listing {
   is_sold: boolean
   created_at: string
   user_id: string
+  view_count?: number
 }
 
 const categories = [
@@ -255,7 +256,22 @@ export default function Browse() {
     }
   }
 
-  const handleListingClick = (listing: Listing) => {
+  const handleListingClick = async (listing: Listing) => {
+    // Update view count
+    try {
+      await supabase
+        .from('listings')
+        .update({ view_count: (listing.view_count || 0) + 1 })
+        .eq('id', listing.id)
+      
+      // Update local state
+      setListings(prev => prev.map(l => 
+        l.id === listing.id ? { ...l, view_count: (l.view_count || 0) + 1 } : l
+      ))
+    } catch (error) {
+      console.error('Error updating view count:', error)
+    }
+    
     setSelectedListing(listing)
     setIsModalOpen(true)
   }
@@ -371,9 +387,21 @@ export default function Browse() {
                 </Button>
               </div>
               
-              <Button asChild>
-                <Link to="/post-ad" dir={direction}>{t('browse.postNewAd')}</Link>
-              </Button>
+              {user ? (
+                <Button asChild>
+                  <Link to="/post-ad" dir={direction}>{t('browse.postNewAd')}</Link>
+                </Button>
+              ) : (
+                <Button 
+                  onClick={() => toast({
+                    title: "נדרשת התחברות",
+                    description: "יש להתחבר כדי לפרסם מודעה חדשה"
+                  })}
+                  dir={direction}
+                >
+                  פרסם מודעה (נדרשת הרשמה)
+                </Button>
+              )}
             </div>
           </div>
 
