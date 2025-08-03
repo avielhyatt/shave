@@ -57,11 +57,6 @@ const categories = {
       subcategories: ["שיפוצים ובנייה", "צביעה ועיצוב", "מספרות ויופי", "גינון ונוף", "חשמל ואינסטלציה", "מנעולנות", "ניקיון", "הובלות", "רפואה משלימה"] 
     },
     { 
-      value: "hobbies", 
-      label: "תחביבים ופנאי", 
-      subcategories: ["ספורט וכושר", "משחקי מחשב", "ספרים", "מוזיקה", "קמפינג וטיולים", "אספנות", "ציור ואמנות", "בישול", "צילום"] 
-    },
-    { 
       value: "babies", 
       label: "תינוקות וילדים", 
       subcategories: ["עגלות ומוצרי בטיחות", "ביגוד לתינוקות", "צעצועים", "רהיטי ילדים", "מוצרי האכלה", "חיתולים", "מוצרי רחצה", "ספרי ילדים"] 
@@ -117,11 +112,6 @@ const categories = {
       value: "services", 
       label: "Services & Professionals", 
       subcategories: ["Renovations & Construction", "Painting & Design", "Hair & Beauty", "Gardening & Landscaping", "Electrical & Plumbing", "Locksmith", "Cleaning", "Moving", "Alternative Medicine"] 
-    },
-    { 
-      value: "hobbies", 
-      label: "Hobbies & Leisure", 
-      subcategories: ["Sports & Fitness", "Video Games", "Books", "Music", "Camping & Hiking", "Collecting", "Art & Painting", "Cooking", "Photography"] 
     },
     { 
       value: "babies", 

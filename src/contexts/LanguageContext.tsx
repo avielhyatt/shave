@@ -125,7 +125,7 @@ const translations = {
     'category.jewelry': 'תכשיטים ושעונים',
     'category.jobs': 'דרושים ועבודה',
     'category.services': 'שירותים ובעלי מקצוע',
-    'category.hobbies': 'תחביבים ופנאי',
+    
     'category.babies': 'תינוקות וילדים',
     'category.animals': 'חיות מחמד',
     'category.wedding': 'חתונות ואירועים',
@@ -310,7 +310,7 @@ const translations = {
     'category.jewelry': 'Jewelry & Watches',
     'category.jobs': 'Jobs & Employment',
     'category.services': 'Services & Professionals',
-    'category.hobbies': 'Hobbies & Leisure',
+    
     'category.babies': 'Babies & Children',
     'category.animals': 'Pets',
     'category.wedding': 'Weddings & Events',

@@ -58,12 +58,6 @@ const categories = [
     subcategories: []
   },
   {
-    id: "hobbies",
-    name: "תחביבים",
-    icon: Gamepad2,
-    subcategories: []
-  },
-  {
     id: "babies",
     name: "תינוקות",
     icon: Baby,

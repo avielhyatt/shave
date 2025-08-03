@@ -40,7 +40,7 @@ const categories = [
   { value: "jewelry", label: "תכשיטים ושעונים" },
   { value: "jobs", label: "דרושים ועבודה" },
   { value: "services", label: "שירותים ובעלי מקצוע" },
-  { value: "hobbies", label: "תחביבים ופנאי" },
+  
   { value: "babies", label: "תינוקות וילדים" },
   { value: "animals", label: "חיות מחמד" },
   { value: "wedding", label: "חתונות ואירועים" }

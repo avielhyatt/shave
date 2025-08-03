@@ -170,21 +170,6 @@ const categories = [
     ]
   },
   {
-    id: "hobbies",
-    name: "תחביבים ופנאי",
-    description: "ספורט, משחקים ופעילויות פנאי",
-    icon: Gamepad2,
-    count: "11,567",
-    color: "bg-orange-500",
-    subcategories: [
-      { name: "ספורט וכושר", count: "4,234", icon: Dumbbell },
-      { name: "משחקי מחשב", count: "2,892", icon: Gamepad2 },
-      { name: "ספרים", count: "2,441", icon: BookOpen },
-      { name: "מוזיקה", count: "1,567", icon: Music },
-      { name: "קמפינג וטיולים", count: "433", icon: TreePine }
-    ]
-  },
-  {
     id: "babies",
     name: "תינוקות וילדים",
     description: "מוצרי תינוקות, ילדים וצעצועים",
