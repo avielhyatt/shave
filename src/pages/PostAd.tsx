@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Header } from "@/components/layout/Header"
 import { Footer } from "@/components/layout/Footer"
-import { Upload, X, Loader2 } from "lucide-react"
+import { Upload, X, Loader2, Package } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
 
@@ -185,16 +185,46 @@ export default function PostAd() {
             <p className={`text-muted-foreground mb-8 ${direction === 'rtl' ? 'hebrew-text' : ''}`}>
               {t('postAd.loginMessage')}
             </p>
-            <div className={`bg-card p-8 rounded-lg shadow-sm ${direction === 'rtl' ? 'text-right' : 'text-left'}`} dir={direction}>
-              <h2 className={`text-xl font-semibold mb-4 ${direction === 'rtl' ? 'hebrew-text' : ''}`}>
-                {t('postAd.benefits.title')}
-              </h2>
-              <ul className={`${direction === 'rtl' ? 'text-right' : 'text-left'} space-y-3 mb-6 ${direction === 'rtl' ? 'hebrew-text' : ''}`} dir={direction}>
-                <li>✓ {t('postAd.benefits.unlimited')}</li>
-                <li>✓ {t('postAd.benefits.dashboard')}</li>
-                <li>✓ {t('postAd.benefits.messages')}</li>
-                <li>✓ {t('postAd.benefits.favorites')}</li>
-                <li>✓ {t('postAd.benefits.stats')}</li>
+            <div className={`bg-card/50 backdrop-blur-sm border border-primary/20 p-8 rounded-xl shadow-lg ${direction === 'rtl' ? 'text-right' : 'text-left'}`} dir={direction}>
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center">
+                  <Package className="w-6 h-6 text-primary" />
+                </div>
+                <h2 className={`text-2xl font-bold ${direction === 'rtl' ? 'hebrew-text' : ''}`}>
+                  {t('postAd.benefits.title')}
+                </h2>
+              </div>
+              <ul className={`space-y-4 mb-8 ${direction === 'rtl' ? 'hebrew-text' : ''}`} dir={direction}>
+                <li className="flex items-center gap-3">
+                  <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-white text-xs font-bold">✓</span>
+                  </div>
+                  <span className="text-lg">{t('postAd.benefits.unlimited')}</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-white text-xs font-bold">✓</span>
+                  </div>
+                  <span className="text-lg">{t('postAd.benefits.dashboard')}</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-white text-xs font-bold">✓</span>
+                  </div>
+                  <span className="text-lg">{t('postAd.benefits.messages')}</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-white text-xs font-bold">✓</span>
+                  </div>
+                  <span className="text-lg">{t('postAd.benefits.favorites')}</span>
+                </li>
+                <li className="flex items-center gap-3">
+                  <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
+                    <span className="text-white text-xs font-bold">✓</span>
+                  </div>
+                  <span className="text-lg">{t('postAd.benefits.stats')}</span>
+                </li>
               </ul>
             </div>
           </div>
