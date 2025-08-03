@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
-import shaveliLogo from "@/assets/shaveli-thumbs-logo.png";
+import shaveLiLogo from "@/assets/shave-li-logo.png";
 
 export const Footer = () => {
   const footerSections = [
@@ -114,7 +114,7 @@ export const Footer = () => {
               </div>
               <div className="flex items-center gap-3">
                 <Mail className="w-4 h-4 text-primary" />
-                <span className="ltr">support@shaveli.co.il</span>
+                <span className="ltr">support@shave.li</span>
               </div>
               <div className="flex items-center gap-3">
                 <MapPin className="w-4 h-4 text-primary" />
@@ -148,7 +148,7 @@ export const Footer = () => {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg overflow-hidden">
-              <img src={shaveliLogo} alt="Shaveli Logo" className="w-full h-full object-cover" />
+              <img src={shaveLiLogo} alt="Shave.li Logo" className="w-full h-full object-cover" />
             </div>
             <span className="text-2xl font-bold text-primary hebrew-text">שווה לי</span>
           </div>

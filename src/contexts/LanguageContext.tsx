@@ -290,7 +290,7 @@ const translations = {
     'auth.backHome': 'Back to Home',
     
     // Hero Section
-    'hero.title': 'Shaveli - Your Israeli Marketplace',
+    'hero.title': 'Shave.li - Your Israeli Marketplace',
     'hero.subtitle': 'Buy, sell and rent with ease and confidence',
     'hero.search': 'What are you looking for today?',
     'hero.searchButton': 'Search',
@@ -340,7 +340,7 @@ const translations = {
     'postAd.title': 'Post New Ad',
     'postAd.loginRequired': 'Post Ad',
     'postAd.loginMessage': 'To post an ad on the site, you need to login or register',
-    'postAd.benefits.title': 'Shaveli Registration Benefits',
+    'postAd.benefits.title': 'Shave.li Registration Benefits',
     'postAd.benefits.unlimited': 'Unlimited ad posting',
     'postAd.benefits.dashboard': 'Manage ads from personal dashboard',
     'postAd.benefits.messages': 'Built-in messaging system',
