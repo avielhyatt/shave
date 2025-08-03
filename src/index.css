@@ -2,56 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Hebrew RTL Support and Shave Platform Design System */
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700&display=swap');
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
+    --background: 250 250 250;
+    --foreground: 20 14.3% 4.1%;
+    
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
+    --card-foreground: 20 14.3% 4.1%;
+    
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
+    --popover-foreground: 20 14.3% 4.1%;
+    
+    --primary: 221.2 83.2% 53.3%;
     --primary-foreground: 210 40% 98%;
-
+    
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
-
+    
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-
+    
     --accent: 210 40% 96.1%;
     --accent-foreground: 222.2 47.4% 11.2%;
-
+    
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-
+    
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
+    --ring: 221.2 83.2% 53.3%;
+    
+    --radius: 0.75rem;
+    
+    /* Shave Brand Colors */
+    --shave-blue: 221.2 83.2% 53.3%;
+    --shave-blue-light: 221.2 83.2% 60%;
+    --shave-blue-dark: 221.2 83.2% 45%;
+    --shave-orange: 25 95% 53%;
+    --shave-orange-light: 25 95% 60%;
+    --shave-green: 142 71% 45%;
+    --shave-gray: 210 16% 82%;
+    --shave-gray-light: 210 16% 93%;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--shave-blue)), hsl(var(--shave-blue-light)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--shave-blue)), hsl(var(--shave-orange)));
+    
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -99,7 +105,91 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+  html {
+    direction: rtl;
+    font-family: 'Heebo', sans-serif;
+  }
+
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
+
+  /* RTL Specific Utilities */
+  .rtl {
+    direction: rtl;
+  }
+
+  .ltr {
+    direction: ltr;
+  }
+
+  /* Hebrew Typography */
+  .hebrew-text {
+    font-family: 'Heebo', sans-serif;
+    direction: rtl;
+    text-align: right;
+  }
+
+  /* Custom Shave Brand Classes */
+  .shave-gradient {
+    background: var(--gradient-primary);
+  }
+
+  .shave-hero-gradient {
+    background: var(--gradient-hero);
+  }
+
+  .shave-blue {
+    color: hsl(var(--shave-blue));
+  }
+
+  .bg-shave-blue {
+    background-color: hsl(var(--shave-blue));
+  }
+
+  .border-shave-blue {
+    border-color: hsl(var(--shave-blue));
+  }
+
+  .hover\:bg-shave-blue-light:hover {
+    background-color: hsl(var(--shave-blue-light));
+  }
+}
+
+/* RTL Overrides for specific components */
+.rtl .text-left {
+  text-align: right;
+}
+
+.rtl .text-right {
+  text-align: left;
+}
+
+.rtl .ml-auto {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.rtl .mr-auto {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+/* Scrollbar RTL Support */
+.rtl ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.rtl ::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+.rtl ::-webkit-scrollbar-thumb {
+  background: hsl(var(--border));
+  border-radius: 4px;
+}
+
+.rtl ::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--muted-foreground));
 }
