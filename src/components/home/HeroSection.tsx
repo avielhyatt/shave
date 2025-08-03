@@ -5,9 +5,11 @@ import { Card } from "@/components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { PricingModal } from "@/components/pricing/PricingModal";
 
 export const HeroSection = () => {
   const [searchQuery, setSearchQuery] = useState("")
+  const [showPricing, setShowPricing] = useState(false)
   const navigate = useNavigate()
   const { t, direction } = useLanguage()
 
@@ -62,8 +64,8 @@ export const HeroSection = () => {
             </Card>
           </div>
 
-          {/* CTA Button */}
-          <div className="mb-12">
+          {/* CTA Buttons */}
+          <div className="mb-12 flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button 
               size="lg" 
               className="px-8 py-6 text-lg bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-0 shadow-lg"
@@ -73,6 +75,16 @@ export const HeroSection = () => {
                 <Plus className={`w-5 h-5 ${direction === 'rtl' ? 'ml-2' : 'mr-2'}`} />
                 {t('hero.postAd')}
               </Link>
+            </Button>
+            
+            <Button 
+              size="lg" 
+              variant="outline"
+              className="px-8 py-6 text-lg bg-white/90 hover:bg-white text-primary border-2 border-white shadow-lg hebrew-text"
+              onClick={() => setShowPricing(true)}
+              dir={direction}
+            >
+              חודש חינם לעסקים
             </Button>
           </div>
 
@@ -87,6 +99,11 @@ export const HeroSection = () => {
           </div>
         </div>
       </div>
+      
+      <PricingModal 
+        isOpen={showPricing} 
+        onClose={() => setShowPricing(false)} 
+      />
     </section>
   );
 };

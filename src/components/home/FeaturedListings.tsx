@@ -23,6 +23,7 @@ interface Listing {
   is_sold: boolean;
   created_at: string;
   user_id: string;
+  view_count?: number;
 }
 
 const categoryLabels = {
@@ -69,9 +70,8 @@ export const FeaturedListings = () => {
       const { data, error } = await supabase
         .from('listings')
         .select('*')
-        .eq('is_featured', true)
         .eq('is_sold', false)
-        .order('created_at', { ascending: false })
+        .order('view_count', { ascending: false })
         .limit(6);
 
       if (error) throw error;
@@ -88,7 +88,17 @@ export const FeaturedListings = () => {
     }
   };
 
-  const handleListingClick = (listing: Listing) => {
+  const handleListingClick = async (listing: Listing) => {
+    // Increment view count
+    try {
+      await supabase
+        .from('listings')
+        .update({ view_count: (listing.view_count || 0) + 1 })
+        .eq('id', listing.id);
+    } catch (error) {
+      console.error('Error updating view count:', error);
+    }
+    
     setSelectedListing(listing);
   };
 
