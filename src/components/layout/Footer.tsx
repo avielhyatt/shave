@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { Facebook, Twitter, Instagram, Youtube, Mail, Phone, MapPin } from "lucide-react";
 import { Link } from "react-router-dom";
-import shaveliLogo from "@/assets/shave-li-ok-logo.png";
+import shaveliLogo from "@/assets/shave-li-diver-logo.png";
 
 export const Footer = () => {
   const footerSections = [
