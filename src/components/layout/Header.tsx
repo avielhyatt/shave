@@ -10,6 +10,7 @@ import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
+import shaveliLogo from "@/assets/shaveli-logo-new.png";
 
 export const Header = () => {
   const { user } = useAuth();
@@ -75,8 +76,8 @@ export const Header = () => {
           {/* Logo */}
           <div className="flex items-center gap-2">
             <Link to="/" className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-orange-500 to-red-500 flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-xl">ש</span>
+              <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg">
+                <img src={shaveliLogo} alt="Shaveli Logo" className="w-full h-full object-cover" />
               </div>
               <div className="flex flex-col">
                 <span className="text-xl font-bold text-primary hebrew-text leading-none">{direction === 'rtl' ? 'שווה לי' : 'Shaveli'}</span>
