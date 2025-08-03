@@ -172,6 +172,7 @@ export default function Help() {
           </Card>
         </div>
       </div>
+      </div>
       <Footer />
     </>
   );

@@ -159,6 +159,7 @@ export default function About() {
           </CardContent>
         </Card>
       </div>
+      </div>
       <Footer />
     </>
   );

@@ -129,6 +129,7 @@ export default function Terms() {
           </CardContent>
         </Card>
       </div>
+      </div>
       <Footer />
     </>
   );
