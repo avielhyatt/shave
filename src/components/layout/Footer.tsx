@@ -150,7 +150,7 @@ export const Footer = () => {
             <div className="w-8 h-8 rounded-lg overflow-hidden">
               <img src={shaveliLogo} alt="Shaveli Logo" className="w-full h-full object-cover" />
             </div>
-            <span className="text-2xl font-bold text-primary hebrew-text">שווה לי</span>
+            <span className="text-2xl font-bold text-primary hebrew-text">Shave.Li</span>
           </div>
           
           <p className="text-muted-foreground text-center hebrew-text">
