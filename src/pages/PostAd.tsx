@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { useAuth } from "@/contexts/AuthContext"
+import { useLanguage } from "@/contexts/LanguageContext"
 import { supabase } from "@/integrations/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -13,23 +14,41 @@ import { Upload, X, Loader2 } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
 
-const categories = [
-  { value: "real-estate", label: "נדל״ן", subcategories: ["דירות למכירה", "דירות להשכרה", "בתים למכירה", "קרקעות"] },
-  { value: "vehicles", label: "רכב", subcategories: ["מכוניות", "אופנועים", "רכב מסחרי", "חלקי חילוף"] },
-  { value: "electronics", label: "אלקטרוניקה", subcategories: ["מחשבים", "טלפונים", "טלוויזיות", "קונסולות"] },
-  { value: "furniture", label: "רהיטים", subcategories: ["סלון", "חדר שינה", "מטבח", "משרד"] },
-  { value: "jobs", label: "עבודה", subcategories: ["משרות מלאות", "משרות חלקיות", "פרילנס", "סטאז׳"] },
-  { value: "services", label: "שירותים", subcategories: ["ניקיון", "שיפוצים", "גינון", "חינוך"] }
-]
+const categories = {
+  he: [
+    { value: "real-estate", label: "נדל״ן", subcategories: ["דירות למכירה", "דירות להשכרה", "בתים למכירה", "קרקעות"] },
+    { value: "vehicles", label: "רכב", subcategories: ["מכוניות", "אופנועים", "רכב מסחרי", "חלקי חילוף"] },
+    { value: "electronics", label: "אלקטרוניקה", subcategories: ["מחשבים", "טלפונים", "טלוויזיות", "קונסולות"] },
+    { value: "furniture", label: "רהיטים", subcategories: ["סלון", "חדר שינה", "מטבח", "משרד"] },
+    { value: "jobs", label: "עבודה", subcategories: ["משרות מלאות", "משרות חלקיות", "פרילנס", "סטאז׳"] },
+    { value: "services", label: "שירותים", subcategories: ["ניקיון", "שיפוצים", "גינון", "חינוך"] }
+  ],
+  en: [
+    { value: "real-estate", label: "Real Estate", subcategories: ["Apartments for Sale", "Apartments for Rent", "Houses for Sale", "Land"] },
+    { value: "vehicles", label: "Vehicles", subcategories: ["Cars", "Motorcycles", "Commercial Vehicles", "Spare Parts"] },
+    { value: "electronics", label: "Electronics", subcategories: ["Computers", "Phones", "TVs", "Consoles"] },
+    { value: "furniture", label: "Furniture", subcategories: ["Living Room", "Bedroom", "Kitchen", "Office"] },
+    { value: "jobs", label: "Jobs", subcategories: ["Full Time", "Part Time", "Freelance", "Internship"] },
+    { value: "services", label: "Services", subcategories: ["Cleaning", "Renovations", "Gardening", "Education"] }
+  ]
+}
 
-const israeliCities = [
-  "תל אביב", "ירושלים", "חיפה", "ראשון לציון", "אשדוד", "נתניה", "באר שבע", "בני ברק",
-  "חולון", "רמת גן", "אשקלון", "רחובות", "בת ים", "בית שמש", "כפר סבא", "חדרה",
-  "מודיעין", "נצרת", "לוד", "רמלה", "הרצליה", "קריות", "טבריה", "עפולה"
-]
+const israeliCities = {
+  he: [
+    "תל אביב", "ירושלים", "חיפה", "ראשון לציון", "אשדוד", "נתניה", "באר שבע", "בני ברק",
+    "חולון", "רמת גן", "אשקלון", "רחובות", "בת ים", "בית שמש", "כפר סבא", "חדרה",
+    "מודיעין", "נצרת", "לוד", "רמלה", "הרצליה", "קריות", "טבריה", "עפולה"
+  ],
+  en: [
+    "Tel Aviv", "Jerusalem", "Haifa", "Rishon LeZion", "Ashdod", "Netanya", "Beer Sheva", "Bnei Brak",
+    "Holon", "Ramat Gan", "Ashkelon", "Rehovot", "Bat Yam", "Beit Shemesh", "Kfar Saba", "Hadera",
+    "Modi'in", "Nazareth", "Lod", "Ramla", "Herzliya", "Kiryat", "Tiberias", "Afula"
+  ]
+}
 
 export default function PostAd() {
   const { user } = useAuth()
+  const { t, language, direction } = useLanguage()
   const navigate = useNavigate()
   const { toast } = useToast()
   
@@ -52,14 +71,14 @@ export default function PostAd() {
     }
   }, [user, navigate])
 
-  const selectedCategory = categories.find(cat => cat.value === category)
+  const selectedCategory = categories[language].find(cat => cat.value === category)
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(e.target.files || [])
     if (images.length + files.length > 8) {
       toast({
-        title: "יותר מדי תמונות",
-        description: "ניתן להעלות עד 8 תמונות",
+        title: t('postAd.error.tooManyImages'),
+        description: t('postAd.error.maxImages'),
         variant: "destructive"
       })
       return
@@ -135,14 +154,14 @@ export default function PostAd() {
       if (error) throw error
 
       toast({
-        title: "המודעה פורסמה בהצלחה!",
-        description: "המודעה שלך עלתה לאוויר ונראית לכל המשתמשים",
+        title: t('postAd.success.title'),
+        description: t('postAd.success.description'),
       })
 
       navigate('/dashboard')
     } catch (error: any) {
       toast({
-        title: "שגיאה בפרסום המודעה",
+        title: t('postAd.error.title'),
         description: error.message,
         variant: "destructive"
       })
@@ -153,23 +172,27 @@ export default function PostAd() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-background rtl">
+      <div className={`min-h-screen bg-background ${direction === 'rtl' ? 'rtl' : ''}`} dir={direction}>
         <Header />
         
         <main className="container mx-auto px-4 py-8">
           <div className="max-w-2xl mx-auto text-center">
-            <h1 className="text-3xl font-bold mb-4 hebrew-text">פרסום מודעה</h1>
-            <p className="text-muted-foreground mb-8 hebrew-text">
-              כדי לפרסם מודעה באתר, עליך להתחבר לחשבון או להירשם
+            <h1 className={`text-3xl font-bold mb-4 ${direction === 'rtl' ? 'hebrew-text' : ''}`}>
+              {t('postAd.loginRequired')}
+            </h1>
+            <p className={`text-muted-foreground mb-8 ${direction === 'rtl' ? 'hebrew-text' : ''}`}>
+              {t('postAd.loginMessage')}
             </p>
             <div className="bg-card p-8 rounded-lg shadow-sm">
-              <h2 className="text-xl font-semibold mb-4 hebrew-text">יתרונות הרישום לשווה</h2>
-              <ul className="text-right space-y-3 mb-6 hebrew-text">
-                <li>✓ פרסום מודעות ללא הגבלה</li>
-                <li>✓ ניהול מודעות מהדשבורד האישי</li>
-                <li>✓ מערכת הודעות מובנית</li>
-                <li>✓ שמירת מודעות מועדפות</li>
-                <li>✓ סטטיסטיקות ונתונים על המודעות</li>
+              <h2 className={`text-xl font-semibold mb-4 ${direction === 'rtl' ? 'hebrew-text' : ''}`}>
+                {t('postAd.benefits.title')}
+              </h2>
+              <ul className={`${direction === 'rtl' ? 'text-right' : 'text-left'} space-y-3 mb-6 ${direction === 'rtl' ? 'hebrew-text' : ''}`}>
+                <li>✓ {t('postAd.benefits.unlimited')}</li>
+                <li>✓ {t('postAd.benefits.dashboard')}</li>
+                <li>✓ {t('postAd.benefits.messages')}</li>
+                <li>✓ {t('postAd.benefits.favorites')}</li>
+                <li>✓ {t('postAd.benefits.stats')}</li>
               </ul>
             </div>
           </div>
@@ -181,15 +204,15 @@ export default function PostAd() {
   }
 
   return (
-    <div className="min-h-screen bg-background rtl">
+    <div className={`min-h-screen bg-background ${direction === 'rtl' ? 'rtl' : ''}`} dir={direction}>
       <Header />
       
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-3xl mx-auto">
           <Card>
             <CardHeader>
-              <CardTitle className="text-2xl font-bold hebrew-text">
-                פרסם מודעה חדשה
+              <CardTitle className={`text-2xl font-bold ${direction === 'rtl' ? 'hebrew-text' : ''}`}>
+                {t('postAd.title')}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -197,33 +220,33 @@ export default function PostAd() {
                 {/* Basic Info */}
                 <div className="space-y-4">
                   <div>
-                    <Label htmlFor="title">כותרת המודעה *</Label>
+                    <Label htmlFor="title">{t('postAd.form.title')}</Label>
                     <Input
                       id="title"
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
-                      placeholder="תיאור קצר ומשיך של הפריט"
+                      placeholder={t('postAd.form.titlePlaceholder')}
                       required
-                      dir="rtl"
+                      dir={direction}
                     />
                   </div>
 
                   <div>
-                    <Label htmlFor="description">תיאור מפורט *</Label>
+                    <Label htmlFor="description">{t('postAd.form.description')}</Label>
                     <Textarea
                       id="description"
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
-                      placeholder="תאר את הפריט בפירוט - מצב, גיל, מפרט וכו'"
+                      placeholder={t('postAd.form.descriptionPlaceholder')}
                       rows={4}
                       required
-                      dir="rtl"
+                      dir={direction}
                     />
                   </div>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="price">מחיר (₪) *</Label>
+                      <Label htmlFor="price">{t('postAd.form.price')}</Label>
                       <Input
                         id="price"
                         type="number"
@@ -231,18 +254,18 @@ export default function PostAd() {
                         onChange={(e) => setPrice(e.target.value)}
                         placeholder="0"
                         required
-                        dir="rtl"
+                        dir={direction}
                       />
                     </div>
 
                     <div>
-                      <Label htmlFor="location">מיקום *</Label>
+                      <Label htmlFor="location">{t('postAd.form.location')}</Label>
                       <Select value={location} onValueChange={setLocation} required>
                         <SelectTrigger>
-                          <SelectValue placeholder="בחר עיר" />
+                          <SelectValue placeholder={t('postAd.form.selectCity')} />
                         </SelectTrigger>
                         <SelectContent>
-                          {israeliCities.map(city => (
+                          {israeliCities[language].map(city => (
                             <SelectItem key={city} value={city}>{city}</SelectItem>
                           ))}
                         </SelectContent>
@@ -254,16 +277,16 @@ export default function PostAd() {
                 {/* Category */}
                 <div className="space-y-4">
                   <div>
-                    <Label htmlFor="category">קטגוריה *</Label>
+                    <Label htmlFor="category">{t('postAd.form.category')}</Label>
                     <Select value={category} onValueChange={(value) => {
                       setCategory(value)
                       setSubcategory("")
                     }} required>
                       <SelectTrigger>
-                        <SelectValue placeholder="בחר קטגוריה" />
+                        <SelectValue placeholder={t('postAd.form.selectCategory')} />
                       </SelectTrigger>
                       <SelectContent>
-                        {categories.map(cat => (
+                        {categories[language].map(cat => (
                           <SelectItem key={cat.value} value={cat.value}>{cat.label}</SelectItem>
                         ))}
                       </SelectContent>
@@ -272,10 +295,10 @@ export default function PostAd() {
 
                   {selectedCategory && (
                     <div>
-                      <Label htmlFor="subcategory">תת-קטגוריה</Label>
+                      <Label htmlFor="subcategory">{t('postAd.form.subcategory')}</Label>
                       <Select value={subcategory} onValueChange={setSubcategory}>
                         <SelectTrigger>
-                          <SelectValue placeholder="בחר תת-קטגוריה" />
+                          <SelectValue placeholder={t('postAd.form.selectSubcategory')} />
                         </SelectTrigger>
                         <SelectContent>
                           {selectedCategory.subcategories.map(sub => (
@@ -289,14 +312,14 @@ export default function PostAd() {
 
                 {/* Images */}
                 <div className="space-y-4">
-                  <Label>תמונות (עד 8 תמונות)</Label>
+                  <Label>{t('postAd.form.images')}</Label>
                   
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     {imageUrls.map((url, index) => (
                       <div key={index} className="relative group">
                         <img 
                           src={url} 
-                          alt={`תמונה ${index + 1}`}
+                          alt={`${t('postAd.form.images')} ${index + 1}`}
                           className="w-full h-24 object-cover rounded-lg"
                         />
                         <Button
@@ -328,30 +351,30 @@ export default function PostAd() {
 
                 {/* Contact Info */}
                 <div className="space-y-4">
-                  <h3 className="font-semibold">פרטי יצירת קשר</h3>
+                  <h3 className="font-semibold">{t('postAd.form.contactInfo')}</h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <Label htmlFor="contactPhone">טלפון</Label>
+                      <Label htmlFor="contactPhone">{t('postAd.form.phone')}</Label>
                       <Input
                         id="contactPhone"
                         type="tel"
                         value={contactPhone}
                         onChange={(e) => setContactPhone(e.target.value)}
-                        placeholder="050-1234567"
-                        dir="rtl"
+                        placeholder={t('postAd.form.phonePlaceholder')}
+                        dir={direction}
                       />
                     </div>
 
                     <div>
-                      <Label htmlFor="contactEmail">אימייל</Label>
+                      <Label htmlFor="contactEmail">{t('postAd.form.email')}</Label>
                       <Input
                         id="contactEmail"
                         type="email"
                         value={contactEmail}
                         onChange={(e) => setContactEmail(e.target.value)}
-                        placeholder="email@example.com"
-                        dir="rtl"
+                        placeholder={t('postAd.form.emailPlaceholder')}
+                        dir={direction}
                       />
                     </div>
                   </div>
@@ -361,7 +384,7 @@ export default function PostAd() {
                 <div className="flex gap-4 pt-6">
                   <Button type="submit" className="flex-1" disabled={loading}>
                     {loading && <Loader2 className="ml-2 h-4 w-4 animate-spin" />}
-                    פרסם מודעה
+                    {t('postAd.form.submit')}
                   </Button>
                   <Button 
                     type="button" 
@@ -369,7 +392,7 @@ export default function PostAd() {
                     onClick={() => navigate('/dashboard')}
                     disabled={loading}
                   >
-                    ביטול
+                    {t('postAd.form.cancel')}
                   </Button>
                 </div>
               </form>
