@@ -5,17 +5,20 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Badge } from "@/components/ui/badge";
 import { AuthModal } from "@/components/auth/AuthModal";
 import { useAuth } from "@/contexts/AuthContext";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
 export const Header = () => {
   const { user } = useAuth();
+  const { t, direction } = useLanguage();
   const [authModalOpen, setAuthModalOpen] = useState(false);
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-center py-1 text-sm hebrew-text">
-        🔥 חדש! פרסמו מודעות בחינם וקבלו חשיפה מקסימלית 🔥
+      <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-center py-1 text-sm" dir={direction}>
+        🔥 {t('header.promo')} 🔥
       </div>
       <div className="container mx-auto px-4">
         <div className="flex h-16 items-center justify-between">
@@ -32,54 +35,55 @@ export const Header = () => {
           {/* Desktop Search */}
           <div className="hidden md:flex flex-1 max-w-xl mx-8">
             <div className="relative w-full">
-              <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+              <Search className={`absolute ${direction === 'rtl' ? 'right-3' : 'left-3'} top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4`} />
               <Input
-                placeholder="חפשו מוצרים, דירות, רכב ועוד..."
-                className="w-full pr-10 hebrew-text"
-                dir="rtl"
+                placeholder={t('hero.search')}
+                className={`w-full ${direction === 'rtl' ? 'pr-10' : 'pl-10'}`}
+                dir={direction}
               />
             </div>
           </div>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center gap-2">
-            <Button variant="ghost" size="sm" className="hebrew-text" asChild>
+            <LanguageSwitcher />
+            <Button variant="ghost" size="sm" asChild>
               <Link to="/browse">
                 <Search className="w-4 h-4 ml-2" />
-                דפדוף מודעות
+                {t('nav.browse')}
               </Link>
             </Button>
             {user ? (
               <>
                 <Button 
-                  className="hebrew-text bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-0" 
+                  className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-0" 
                   size="sm" 
                   asChild
                 >
                   <Link to="/post-ad">
                     <Plus className="w-4 h-4 ml-2" />
-                    פרסום מודעה
+                    {t('nav.post')}
                   </Link>
                 </Button>
-                <Button variant="ghost" size="sm" className="hebrew-text relative" asChild>
+                <Button variant="ghost" size="sm" className="relative" asChild>
                   <Link to="/messages">
                     <MessageCircle className="w-4 h-4 ml-2" />
-                    הודעות
+                    {t('nav.messages')}
                     <Badge className="absolute -top-1 -left-1 h-5 w-5 p-0 text-xs bg-destructive">
                       3
                     </Badge>
                   </Link>
                 </Button>
-                <Button variant="ghost" size="sm" className="hebrew-text" asChild>
+                <Button variant="ghost" size="sm" asChild>
                   <Link to="/favorites">
                     <Heart className="w-4 h-4 ml-2" />
-                    מועדפים
+                    {t('nav.favorites')}
                   </Link>
                 </Button>
-                <Button variant="ghost" size="sm" className="hebrew-text" asChild>
+                <Button variant="ghost" size="sm" asChild>
                   <Link to="/dashboard">
                     <User className="w-4 h-4 ml-2" />
-                    הדשבורד שלי
+                    {t('nav.dashboard')}
                   </Link>
                 </Button>
               </>
@@ -87,11 +91,10 @@ export const Header = () => {
               <Button 
                 variant="ghost" 
                 size="sm" 
-                className="hebrew-text"
                 onClick={() => setAuthModalOpen(true)}
               >
                 <User className="w-4 h-4 ml-2" />
-                התחברות
+                {t('nav.login')}
               </Button>
             )}
           </nav>

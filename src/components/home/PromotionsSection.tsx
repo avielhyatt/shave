@@ -58,8 +58,10 @@ export const PromotionsSection = () => {
                   <p className="text-muted-foreground mb-6 hebrew-text leading-relaxed">
                     {promo.description}
                   </p>
-                  <Button className={`${promo.color} text-white border-0 hover:opacity-90`}>
-                    {promo.cta}
+                  <Button className={`${promo.color} text-white border-0 hover:opacity-90`} asChild>
+                    <Link to={promo.id === 1 ? "/post-ad" : promo.id === 2 ? "/notifications" : "/messages"}>
+                      {promo.cta}
+                    </Link>
                   </Button>
                 </CardContent>
               </Card>
