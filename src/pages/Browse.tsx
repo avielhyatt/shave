@@ -24,6 +24,7 @@ interface Listing {
   subcategory?: string
   location: string
   images: string[]
+  view_count?: number
   contact_phone?: string
   contact_email?: string
   is_featured: boolean
