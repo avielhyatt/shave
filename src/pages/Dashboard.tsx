@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import { Header } from "@/components/layout/Header"
 import { Footer } from "@/components/layout/Footer"
-import { Plus, MessageCircle, Heart, Settings, Edit, Trash2 } from "lucide-react"
+import { Plus, MessageCircle, Heart, Settings, Edit, Trash2, Eye, TrendingUp } from "lucide-react"
 import { Link, useNavigate } from "react-router-dom"
 import { useToast } from "@/hooks/use-toast"
 
@@ -22,6 +22,7 @@ interface Listing {
   is_sold: boolean
   created_at: string
   images: string[]
+  view_count?: number
 }
 
 export default function Dashboard() {
@@ -29,6 +30,7 @@ export default function Dashboard() {
   const { t, direction, language } = useLanguage()
   const [listings, setListings] = useState<Listing[]>([])
   const [loading, setLoading] = useState(true)
+  const [stats, setStats] = useState({ totalViews: 0, totalListings: 0, activeListings: 0 })
   const navigate = useNavigate()
   const { toast } = useToast()
 
@@ -50,6 +52,15 @@ export default function Dashboard() {
 
       if (error) throw error
       setListings(data || [])
+      
+      // Calculate stats
+      const totalViews = data?.reduce((sum, listing) => sum + (listing.view_count || 0), 0) || 0
+      const activeListings = data?.filter(listing => !listing.is_sold).length || 0
+      setStats({
+        totalViews,
+        totalListings: data?.length || 0,
+        activeListings
+      })
     } catch (error) {
       console.error('Error fetching listings:', error)
     } finally {
@@ -111,6 +122,49 @@ export default function Dashboard() {
                 {t('dashboard.signOut')}
               </Button>
             </div>
+          </div>
+
+          {/* Stats Overview */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-primary/10 rounded-lg">
+                    <TrendingUp className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold">{stats.totalViews}</p>
+                    <p className="text-sm text-muted-foreground">סה״כ צפיות</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-green-500/10 rounded-lg">
+                    <Edit className="w-6 h-6 text-green-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold">{stats.activeListings}</p>
+                    <p className="text-sm text-muted-foreground">מודעות פעילות</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 bg-blue-500/10 rounded-lg">
+                    <Plus className="w-6 h-6 text-blue-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold">{stats.totalListings}</p>
+                    <p className="text-sm text-muted-foreground">סה״כ מודעות</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
           <Tabs defaultValue="listings" className="w-full">
@@ -183,19 +237,25 @@ export default function Dashboard() {
                               <p className="text-lg font-bold text-primary">
                                 ₪{listing.price.toLocaleString()}
                               </p>
-                               <div className="flex items-center gap-2">
-                                 <Badge variant="secondary">{listing.category}</Badge>
-                                 {listing.is_featured && (
-                                   <Badge className="bg-yellow-500" dir={direction}>{t('dashboard.featured')}</Badge>
-                                 )}
-                                 {listing.is_sold && (
-                                   <Badge variant="destructive" dir={direction}>{t('dashboard.sold')}</Badge>
-                                 )}
-                               </div>
-                              <p className="text-sm text-muted-foreground">{listing.location}</p>
-                              <p className="text-xs text-muted-foreground">
-                                {new Date(listing.created_at).toLocaleDateString('he-IL')}
-                              </p>
+                                <div className="flex items-center gap-2">
+                                  <Badge variant="secondary">{listing.category}</Badge>
+                                  {listing.is_featured && (
+                                    <Badge className="bg-yellow-500" dir={direction}>{t('dashboard.featured')}</Badge>
+                                  )}
+                                  {listing.is_sold && (
+                                    <Badge variant="destructive" dir={direction}>{t('dashboard.sold')}</Badge>
+                                  )}
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <p className="text-sm text-muted-foreground">{listing.location}</p>
+                                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                                    <Eye className="w-4 h-4" />
+                                    <span>{listing.view_count || 0}</span>
+                                  </div>
+                                </div>
+                                <p className="text-xs text-muted-foreground">
+                                  {new Date(listing.created_at).toLocaleDateString('he-IL')}
+                                </p>
                             </div>
                           </CardContent>
                         </Card>

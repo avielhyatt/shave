@@ -1,26 +1,40 @@
-import { Search, Plus } from "lucide-react";
+import { Search, Plus, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { PricingModal } from "@/components/pricing/PricingModal";
+import { AuthModal } from "@/components/auth/AuthModal";
+import { toast } from "sonner";
 
 export const HeroSection = () => {
   const [searchQuery, setSearchQuery] = useState("")
   const [showPricing, setShowPricing] = useState(false)
+  const [showAuth, setShowAuth] = useState(false)
   const navigate = useNavigate()
   const { t, direction } = useLanguage()
+  const { user } = useAuth()
 
   const handleSearch = () => {
     navigate(`/browse?q=${encodeURIComponent(searchQuery)}`)
   }
 
+  const handlePostAd = () => {
+    if (user) {
+      navigate('/post-ad')
+    } else {
+      setShowAuth(true)
+      toast.error('נדרשת התחברות כדי לפרסם מודעה')
+    }
+  }
+
   const stats = [
-    { number: "50,000+", label: t('hero.stats.activeAds') },
-    { number: "100,000+", label: t('hero.stats.users') },
-    { number: "500+", label: t('hero.stats.dailyAds') },
+    { number: "10,000+", label: t('hero.stats.activeAds') },
+    { number: "25,000+", label: t('hero.stats.users') },
+    { number: "150+", label: t('hero.stats.dailyAds') },
   ];
 
   return (
@@ -69,18 +83,30 @@ export const HeroSection = () => {
             <Button 
               size="lg" 
               className="px-8 py-6 text-lg bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white border-0 shadow-lg"
-              asChild
+              onClick={handlePostAd}
+              dir={direction}
             >
-              <Link to="/post-ad" dir={direction}>
-                <Plus className={`w-5 h-5 ${direction === 'rtl' ? 'ml-2' : 'mr-2'}`} />
-                {t('hero.postAd')}
-              </Link>
+              <Plus className={`w-5 h-5 ${direction === 'rtl' ? 'ml-2' : 'mr-2'}`} />
+              {user ? t('hero.postAd') : 'פרסם מודעה (נדרשת הרשמה)'}
             </Button>
             
             <Button 
               size="lg" 
               variant="outline"
-              className="px-8 py-6 text-lg bg-white/90 hover:bg-white text-primary border-2 border-white shadow-lg hebrew-text"
+              className="px-6 py-4 text-base bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white border-0 shadow-lg"
+              onClick={() => navigate('/browse?mode=tinder')}
+              dir={direction}
+            >
+              <Zap className={`w-5 h-5 ${direction === 'rtl' ? 'ml-2' : 'mr-2'}`} />
+              מוד מארקטפלייס
+            </Button>
+          </div>
+          
+          <div className="mb-8 flex justify-center">
+            <Button 
+              size="sm" 
+              variant="outline"
+              className="px-6 py-3 text-sm bg-white/90 hover:bg-white text-primary border-2 border-white shadow-lg hebrew-text"
               onClick={() => setShowPricing(true)}
               dir={direction}
             >
@@ -103,6 +129,11 @@ export const HeroSection = () => {
       <PricingModal 
         isOpen={showPricing} 
         onClose={() => setShowPricing(false)} 
+      />
+      
+      <AuthModal 
+        open={showAuth} 
+        onOpenChange={setShowAuth} 
       />
     </section>
   );

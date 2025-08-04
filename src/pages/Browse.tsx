@@ -89,12 +89,16 @@ export default function Browse() {
     // Set initial filters from URL
     const categoryParam = searchParams.get('category')
     const queryParam = searchParams.get('q')
+    const modeParam = searchParams.get('mode')
     
     if (categoryParam && categoryParam !== selectedCategory) {
       setSelectedCategory(categoryParam)
     }
     if (queryParam && queryParam !== searchQuery) {
       setSearchQuery(queryParam)
+    }
+    if (modeParam === 'tinder') {
+      setShowTinderView(true)
     }
   }, [searchParams])
 

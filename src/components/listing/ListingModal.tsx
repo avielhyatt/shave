@@ -23,6 +23,7 @@ interface Listing {
   is_sold: boolean
   created_at: string
   user_id: string
+  view_count?: number
 }
 
 interface ListingModalProps {
@@ -119,7 +120,7 @@ export const ListingModal = ({
           <div className="flex items-center gap-4 text-sm text-muted-foreground pt-2">
             <div className="flex items-center gap-1">
               <Eye className="w-4 h-4" />
-              <span>{viewCount} צפיות</span>
+              <span>{listing.view_count || 0} צפיות</span>
             </div>
             <div className="flex items-center gap-1">
               <Calendar className="w-4 h-4" />
