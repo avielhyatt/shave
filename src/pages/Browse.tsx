@@ -382,10 +382,10 @@ export default function Browse() {
               <Button 
                 variant="outline"
                 onClick={() => setShowTinderView(true)}
-                className="bg-gradient-to-r from-pink-500 to-red-500 text-white border-0 hover:from-pink-600 hover:to-red-600"
+                className="bg-gradient-to-r from-red-500 to-red-600 text-white border-0 hover:from-red-600 hover:to-red-700"
               >
                 <Zap className="w-4 h-4 mr-2" />
-                מוד Marketplace
+                MarketPlace Mode
               </Button>
               <Button asChild>
                 <Link to="/post-ad" dir={direction}>{t('browse.postNewAd')}</Link>

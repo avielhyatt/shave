@@ -166,15 +166,15 @@ export const TinderView = ({ listings, onBack, onContactSeller }: TinderViewProp
   }
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-background to-muted/20 p-4 ${direction === 'rtl' ? 'rtl' : ''}`} dir={direction}>
+    <div className={`min-h-screen bg-gradient-to-br from-background to-muted/20 pb-40 ${direction === 'rtl' ? 'rtl' : ''}`} dir={direction}>
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center justify-between p-4 mb-4">
         <Button variant="ghost" onClick={onBack} className="flex items-center gap-2">
           <ArrowLeft className="w-4 h-4" />
           חזור
         </Button>
         <div className="text-center">
-          <h1 className="text-xl font-bold">מוד Marketplace</h1>
+          <h1 className="text-xl font-bold">MarketPlace Mode</h1>
           <p className="text-sm text-muted-foreground">
             {currentIndex + 1} מתוך {listings.length}
           </p>
@@ -182,121 +182,124 @@ export const TinderView = ({ listings, onBack, onContactSeller }: TinderViewProp
         <div className="w-16"></div>
       </div>
 
-      {/* Cards Stack */}
-      <div className="relative max-w-sm mx-auto" ref={constraintsRef}>
-        <AnimatePresence>
-          {listings.slice(currentIndex, currentIndex + 3).map((listing, index) => (
-            <motion.div
-              key={listing.id}
-              className="absolute inset-0"
-              style={{
-                zIndex: 3 - index,
-                scale: 1 - index * 0.05,
-                opacity: 1 - index * 0.3
-              }}
-              drag={index === 0}
-              dragConstraints={constraintsRef}
-              dragElastic={0.7}
-              onDragEnd={index === 0 ? handleDragEnd : undefined}
-              whileDrag={index === 0 ? { scale: 1.05 } : {}}
-              onClick={() => handleCardClick(listing)}
-              animate={index === 0 ? { x: dragOffset.x, y: dragOffset.y } : {}}
-            >
-              <Card className="w-full h-[600px] overflow-hidden shadow-2xl bg-card border-2">
-                {/* Image */}
-                <div className="relative h-2/3 bg-muted overflow-hidden">
-                  {listing.images.length > 0 ? (
-                    <img 
-                      src={listing.images[0]} 
-                      alt={listing.title}
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <Eye className="w-12 h-12 text-muted-foreground" />
-                    </div>
-                  )}
-                  
-                  {/* Badges */}
-                  <div className="absolute top-4 left-4 right-4 flex justify-between">
-                    {listing.is_featured && (
-                      <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white">
-                        ⭐ מומלץ
-                      </Badge>
-                    )}
-                    {listing.view_count && (
-                      <Badge variant="secondary" className="bg-background/80">
-                        <Eye className="w-3 h-3 mr-1" />
-                        {listing.view_count}
-                      </Badge>
-                    )}
-                  </div>
-                </div>
-
-                <CardContent className="h-1/3 p-6 flex flex-col justify-between">
-                  <div className="space-y-3">
-                    <div>
-                      <h3 className="text-xl font-bold line-clamp-2 mb-2">
-                        {listing.title}
-                      </h3>
-                      <p className="text-3xl font-bold text-primary">
-                        ₪{listing.price.toLocaleString()}
-                      </p>
-                    </div>
-                    
-                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Badge variant="outline">{categoryLabel}</Badge>
-                      <div className="flex items-center gap-1">
-                        <MapPin className="w-3 h-3" />
-                        {listing.location}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Contact Section */}
-                  <div className="space-y-2">
-                    {user ? (
-                      <div className="space-y-1">
-                        {listing.contact_phone && (
-                          <div className="flex items-center gap-2 text-sm">
-                            <Phone className="w-3 h-3" />
-                            <span className="font-mono">{listing.contact_phone}</span>
-                          </div>
-                        )}
-                        <Button 
-                          size="sm" 
-                          className="w-full"
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            onContactSeller(listing)
-                          }}
-                        >
-                          <Phone className="w-4 h-4 mr-2" />
-                          צור קשר
-                        </Button>
-                      </div>
+      {/* Cards Stack Container - with proper spacing */}
+      <div className="relative max-w-sm mx-auto px-4" style={{ height: 'calc(100vh - 280px)' }}>
+        <div className="relative w-full h-full" ref={constraintsRef}>
+          <AnimatePresence>
+            {listings.slice(currentIndex, currentIndex + 3).map((listing, index) => (
+              <motion.div
+                key={listing.id}
+                className="absolute inset-0"
+                style={{
+                  zIndex: 3 - index,
+                  scale: 1 - index * 0.05,
+                  opacity: 1 - index * 0.3
+                }}
+                drag={index === 0}
+                dragConstraints={constraintsRef}
+                dragElastic={0.7}
+                onDragEnd={index === 0 ? handleDragEnd : undefined}
+                whileDrag={index === 0 ? { scale: 1.05 } : {}}
+                onClick={() => handleCardClick(listing)}
+                animate={index === 0 ? { x: dragOffset.x, y: dragOffset.y } : {}}
+              >
+                <Card className="w-full h-full overflow-hidden shadow-2xl bg-card border-2 flex flex-col">
+                  {/* Image - taking 60% of card height */}
+                  <div className="relative flex-grow bg-muted overflow-hidden" style={{ minHeight: '60%' }}>
+                    {listing.images.length > 0 ? (
+                      <img 
+                        src={listing.images[0]} 
+                        alt={listing.title}
+                        className="w-full h-full object-cover"
+                      />
                     ) : (
-                      <div className="bg-muted/50 rounded-lg p-3 text-center">
-                        <Lock className="w-5 h-5 mx-auto mb-2 text-muted-foreground" />
-                        <p className="text-sm text-muted-foreground">
-                          התחבר כדי לראות פרטי יצירת קשר
+                      <div className="w-full h-full flex items-center justify-center">
+                        <Eye className="w-12 h-12 text-muted-foreground" />
+                      </div>
+                    )}
+                    
+                    {/* Badges */}
+                    <div className="absolute top-4 left-4 right-4 flex justify-between">
+                      {listing.is_featured && (
+                        <Badge className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white">
+                          ⭐ מומלץ
+                        </Badge>
+                      )}
+                      {listing.view_count && (
+                        <Badge variant="secondary" className="bg-background/80">
+                          <Eye className="w-3 h-3 mr-1" />
+                          {listing.view_count}
+                        </Badge>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Content - taking 40% of card height */}
+                  <CardContent className="p-4 flex flex-col justify-between" style={{ minHeight: '40%' }}>
+                    <div className="space-y-2">
+                      <div>
+                        <h3 className="text-lg font-bold line-clamp-2 mb-1">
+                          {listing.title}
+                        </h3>
+                        <p className="text-2xl font-bold text-primary">
+                          ₪{listing.price.toLocaleString()}
                         </p>
                       </div>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-          ))}
-        </AnimatePresence>
+                      
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <Badge variant="outline" className="text-xs">{categoryLabel}</Badge>
+                        <div className="flex items-center gap-1">
+                          <MapPin className="w-3 h-3" />
+                          <span className="text-xs">{listing.location}</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Contact Section */}
+                    <div className="space-y-2 mt-3">
+                      {user ? (
+                        <div className="space-y-1">
+                          {listing.contact_phone && (
+                            <div className="flex items-center gap-2 text-xs">
+                              <Phone className="w-3 h-3" />
+                              <span className="font-mono">{listing.contact_phone}</span>
+                            </div>
+                          )}
+                          <Button 
+                            size="sm" 
+                            className="w-full h-8 text-sm"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              onContactSeller(listing)
+                            }}
+                          >
+                            <Phone className="w-3 h-3 mr-1" />
+                            צור קשר
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="bg-muted/50 rounded-lg p-2 text-center">
+                          <Lock className="w-4 h-4 mx-auto mb-1 text-muted-foreground" />
+                          <p className="text-xs text-muted-foreground">
+                            התחבר כדי לראות פרטי יצירת קשר
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
       </div>
 
-      {/* Action Buttons */}
-      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 flex gap-6">
+      {/* Action Buttons - Fixed at bottom with safe area */}
+      <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 flex gap-6 z-50">
         <Button
           size="lg"
           variant="outline"
-          className="w-16 h-16 rounded-full border-2 border-red-500 text-red-500 hover:bg-red-50"
+          className="w-16 h-16 rounded-full border-2 border-red-500 text-red-500 hover:bg-red-50 shadow-lg bg-white"
           onClick={handleSwipeLeft}
         >
           <X className="w-8 h-8" />
@@ -304,16 +307,16 @@ export const TinderView = ({ listings, onBack, onContactSeller }: TinderViewProp
         
         <Button
           size="lg"
-          className="w-16 h-16 rounded-full bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600"
+          className="w-16 h-16 rounded-full bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 shadow-lg"
           onClick={handleSwipeRight}
         >
           <Heart className="w-8 h-8" />
         </Button>
       </div>
 
-      {/* Instructions */}
-      <div className="fixed bottom-32 left-1/2 transform -translate-x-1/2 text-center">
-        <p className="text-sm text-muted-foreground bg-background/80 px-4 py-2 rounded-full">
+      {/* Instructions - Above buttons */}
+      <div className="fixed bottom-40 left-1/2 transform -translate-x-1/2 text-center z-40">
+        <p className="text-sm text-muted-foreground bg-background/90 px-4 py-2 rounded-full shadow-md border">
           גרור ימינה ❤️ או שמאלה ✖️ לדלג
         </p>
       </div>

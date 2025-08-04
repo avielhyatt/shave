@@ -87,18 +87,17 @@ export const HeroSection = () => {
               dir={direction}
             >
               <Plus className={`w-5 h-5 ${direction === 'rtl' ? 'ml-2' : 'mr-2'}`} />
-              {user ? t('hero.postAd') : 'פרסם מודעה (נדרשת הרשמה)'}
+              {user ? t('hero.postAd') : 'פרסם מודעה'}
             </Button>
             
             <Button 
               size="lg" 
-              variant="outline"
-              className="px-6 py-4 text-base bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white border-0 shadow-lg"
+              className="px-6 py-4 text-base bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white border-0 shadow-lg"
               onClick={() => navigate('/browse?mode=tinder')}
               dir={direction}
             >
               <Zap className={`w-5 h-5 ${direction === 'rtl' ? 'ml-2' : 'mr-2'}`} />
-              מוד מארקטפלייס
+              MarketPlace Mode
             </Button>
           </div>
           
