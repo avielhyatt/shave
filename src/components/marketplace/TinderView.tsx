@@ -80,7 +80,7 @@ export const TinderView = ({ listings, onBack, onContactSeller }: TinderViewProp
 
   const updateViewCount = async (listingId: string) => {
     try {
-      await supabase.rpc('increment_view_count', { listing_id: listingId })
+      await supabase.rpc('increment_view_count', { listing_id: listingId } as any)
     } catch (error) {
       console.error('Error updating view count:', error)
     }

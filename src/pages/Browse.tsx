@@ -267,7 +267,7 @@ export default function Browse() {
 
   const updateViewCount = async (listingId: string) => {
     try {
-      await supabase.rpc('increment_view_count', { listing_id: listingId })
+      await supabase.rpc('increment_view_count', { listing_id: listingId } as any)
     } catch (error) {
       console.error('Error updating view count:', error)
     }
@@ -533,14 +533,17 @@ export default function Browse() {
         </div>
 
         {/* Listing Modal */}
-        <ListingModal
-          listing={selectedListing}
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-          onContactSeller={handleContactSeller}
-          onToggleFavorite={toggleFavorite}
-          isFavorite={selectedListing ? favorites.includes(selectedListing.id) : false}
-        />
+        {selectedListing && (
+          <ListingModal
+            listing={selectedListing}
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            onContactSeller={handleContactSeller}
+            onToggleFavorite={toggleFavorite}
+            isFavorite={favorites.includes(selectedListing.id)}
+            viewCount={selectedListing.view_count || 0}
+          />
+        )}
       </main>
 
       <Footer />
