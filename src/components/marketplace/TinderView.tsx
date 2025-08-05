@@ -5,7 +5,7 @@ import { useLanguage } from "@/contexts/LanguageContext"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Heart, X, MapPin, Eye, ArrowLeft, Phone, Lock } from "lucide-react"
+import { Heart, X, MapPin, Eye, ArrowLeft, Phone, Lock, ChevronLeft, ChevronRight } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { supabase } from "@/integrations/supabase/client"
 
@@ -53,7 +53,8 @@ export const TinderView = ({ listings, onBack, onContactSeller }: TinderViewProp
   const { toast } = useToast()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [favorites, setFavorites] = useState<string[]>([])
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
+  const [currentImageIndex, setCurrentImageIndex] = useState(0)
+  const [dragDirection, setDragDirection] = useState<'left' | 'right' | null>(null)
   const constraintsRef = useRef(null)
 
   useEffect(() => {
@@ -131,16 +132,46 @@ export const TinderView = ({ listings, onBack, onContactSeller }: TinderViewProp
   }
 
   const handleDragEnd = (event: any, info: PanInfo) => {
-    const threshold = 100
-    if (Math.abs(info.offset.x) > threshold) {
+    const threshold = 120
+    const velocity = Math.abs(info.velocity.x)
+    
+    if (Math.abs(info.offset.x) > threshold || velocity > 500) {
       if (info.offset.x > 0) {
         handleSwipeRight()
       } else {
         handleSwipeLeft()
       }
+      setDragDirection(info.offset.x > 0 ? 'right' : 'left')
+    } else {
+      setDragDirection(null)
     }
-    setDragOffset({ x: 0, y: 0 })
   }
+
+  const handleDrag = (event: any, info: PanInfo) => {
+    if (Math.abs(info.offset.x) > 50) {
+      setDragDirection(info.offset.x > 0 ? 'right' : 'left')
+    } else {
+      setDragDirection(null)
+    }
+  }
+
+  const nextImage = () => {
+    const currentListing = listings[currentIndex]
+    if (currentImageIndex < currentListing.images.length - 1) {
+      setCurrentImageIndex(currentImageIndex + 1)
+    }
+  }
+
+  const prevImage = () => {
+    if (currentImageIndex > 0) {
+      setCurrentImageIndex(currentImageIndex - 1)
+    }
+  }
+
+  // Reset image index when listing changes
+  useEffect(() => {
+    setCurrentImageIndex(0)
+  }, [currentIndex])
 
   const handleCardClick = (listing: Listing) => {
     updateViewCount(listing.id)
@@ -197,21 +228,75 @@ export const TinderView = ({ listings, onBack, onContactSeller }: TinderViewProp
                 }}
                 drag={index === 0}
                 dragConstraints={constraintsRef}
-                dragElastic={0.7}
+                dragElastic={0.2}
+                dragTransition={{ bounceStiffness: 600, bounceDamping: 30 }}
+                onDrag={index === 0 ? handleDrag : undefined}
                 onDragEnd={index === 0 ? handleDragEnd : undefined}
-                whileDrag={index === 0 ? { scale: 1.05 } : {}}
+                whileDrag={index === 0 ? { 
+                  scale: 1.05,
+                  rotateZ: dragDirection === 'right' ? 15 : dragDirection === 'left' ? -15 : 0
+                } : {}}
                 onClick={() => handleCardClick(listing)}
-                animate={index === 0 ? { x: dragOffset.x, y: dragOffset.y } : {}}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
               >
                 <Card className="w-full h-full overflow-hidden shadow-2xl bg-card border-2 flex flex-col">
                   {/* Image - taking 60% of card height */}
                   <div className="relative flex-grow bg-muted overflow-hidden" style={{ minHeight: '60%' }}>
                     {listing.images.length > 0 ? (
-                      <img 
-                        src={listing.images[0]} 
-                        alt={listing.title}
-                        className="w-full h-full object-cover"
-                      />
+                      <>
+                        <img 
+                          src={listing.images[currentImageIndex]} 
+                          alt={listing.title}
+                          className="w-full h-full object-cover"
+                        />
+                        
+                        {/* Image Navigation - only show if more than 1 image */}
+                        {listing.images.length > 1 && index === 0 && (
+                          <>
+                            {/* Previous Image Button */}
+                            {currentImageIndex > 0 && (
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                className="absolute left-2 top-1/2 transform -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 text-white hover:bg-black/70 p-0"
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  prevImage()
+                                }}
+                              >
+                                <ChevronLeft className="w-4 h-4" />
+                              </Button>
+                            )}
+                            
+                            {/* Next Image Button */}
+                            {currentImageIndex < listing.images.length - 1 && (
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                className="absolute right-2 top-1/2 transform -translate-y-1/2 w-8 h-8 rounded-full bg-black/50 text-white hover:bg-black/70 p-0"
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  nextImage()
+                                }}
+                              >
+                                <ChevronRight className="w-4 h-4" />
+                              </Button>
+                            )}
+                            
+                            {/* Image indicators */}
+                            <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex gap-1">
+                              {listing.images.map((_, imageIndex) => (
+                                <div
+                                  key={imageIndex}
+                                  className={`w-2 h-2 rounded-full ${
+                                    imageIndex === currentImageIndex ? 'bg-white' : 'bg-white/50'
+                                  }`}
+                                />
+                              ))}
+                            </div>
+                          </>
+                        )}
+                      </>
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
                         <Eye className="w-12 h-12 text-muted-foreground" />
@@ -298,19 +383,19 @@ export const TinderView = ({ listings, onBack, onContactSeller }: TinderViewProp
       <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 flex gap-6 z-50">
         <Button
           size="lg"
+          className="w-16 h-16 rounded-full bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 shadow-lg"
+          onClick={handleSwipeRight}
+        >
+          <Heart className="w-8 h-8" />
+        </Button>
+        
+        <Button
+          size="lg"
           variant="outline"
           className="w-16 h-16 rounded-full border-2 border-red-500 text-red-500 hover:bg-red-50 shadow-lg bg-white"
           onClick={handleSwipeLeft}
         >
           <X className="w-8 h-8" />
-        </Button>
-        
-        <Button
-          size="lg"
-          className="w-16 h-16 rounded-full bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 shadow-lg"
-          onClick={handleSwipeRight}
-        >
-          <Heart className="w-8 h-8" />
         </Button>
       </div>
 
