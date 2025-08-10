@@ -56,6 +56,7 @@ export const TinderView = ({ listings, onBack, onContactSeller }: TinderViewProp
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const [dragDirection, setDragDirection] = useState<'left' | 'right' | null>(null)
   const constraintsRef = useRef(null)
+  const dragStartedInImageAreaRef = useRef(false)
 
   useEffect(() => {
     if (user) {
@@ -132,19 +133,39 @@ export const TinderView = ({ listings, onBack, onContactSeller }: TinderViewProp
   }
 
   const handleDragEnd = (event: any, info: PanInfo) => {
-    const threshold = 120
-    const velocity = Math.abs(info.velocity.x)
-    
-    if (Math.abs(info.offset.x) > threshold || velocity > 500) {
+    const swipeThreshold = 140
+    const fastVelocity = 800
+
+    // If drag started on the image area and it's a short swipe, navigate images instead of swiping card
+    if (dragStartedInImageAreaRef.current) {
+      const imageNavThreshold = 40
+      const absX = Math.abs(info.offset.x)
+      if (absX >= imageNavThreshold && absX < swipeThreshold && Math.abs(info.velocity.x) < 1500) {
+        if (info.offset.x > 0) {
+          prevImage()
+        } else {
+          nextImage()
+        }
+        setDragDirection(null)
+        dragStartedInImageAreaRef.current = false
+        return
+      }
+    }
+
+    // Card decision swipe
+    if (Math.abs(info.offset.x) > swipeThreshold || Math.abs(info.velocity.x) > fastVelocity) {
       if (info.offset.x > 0) {
+        setDragDirection('right')
         handleSwipeRight()
       } else {
+        setDragDirection('left')
         handleSwipeLeft()
       }
-      setDragDirection(info.offset.x > 0 ? 'right' : 'left')
     } else {
       setDragDirection(null)
     }
+
+    dragStartedInImageAreaRef.current = false
   }
 
   const handleDrag = (event: any, info: PanInfo) => {
@@ -228,20 +249,25 @@ export const TinderView = ({ listings, onBack, onContactSeller }: TinderViewProp
                 }}
                 drag={index === 0}
                 dragConstraints={constraintsRef}
-                dragElastic={0.2}
-                dragTransition={{ bounceStiffness: 600, bounceDamping: 30 }}
+                dragElastic={0.15}
+                dragTransition={{ bounceStiffness: 520, bounceDamping: 22 }}
+                onDragStart={index === 0 ? (e) => {
+                  const target = e.target as HTMLElement
+                  dragStartedInImageAreaRef.current = !!target.closest('.image-area')
+                } : undefined}
                 onDrag={index === 0 ? handleDrag : undefined}
                 onDragEnd={index === 0 ? handleDragEnd : undefined}
                 whileDrag={index === 0 ? { 
                   scale: 1.05,
-                  rotateZ: dragDirection === 'right' ? 15 : dragDirection === 'left' ? -15 : 0
+                  rotateZ: dragDirection === 'right' ? 10 : dragDirection === 'left' ? -10 : 0
                 } : {}}
                 onClick={() => handleCardClick(listing)}
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                exit={index === 0 ? { x: dragDirection === 'right' ? 500 : -500, opacity: 0, rotateZ: dragDirection === 'right' ? 15 : -15 } : {}}
+                transition={{ type: "spring", stiffness: 260, damping: 22 }}
               >
                 <Card className="w-full h-full overflow-hidden shadow-2xl bg-card border-2 flex flex-col">
                   {/* Image - taking 60% of card height */}
-                  <div className="relative flex-grow bg-muted overflow-hidden" style={{ minHeight: '60%' }}>
+                  <div className="relative flex-grow bg-muted overflow-hidden image-area" style={{ minHeight: '60%' }}>
                     {listing.images.length > 0 ? (
                       <>
                         <img 
@@ -301,6 +327,18 @@ export const TinderView = ({ listings, onBack, onContactSeller }: TinderViewProp
                       <div className="w-full h-full flex items-center justify-center">
                         <Eye className="w-12 h-12 text-muted-foreground" />
                       </div>
+                    )}
+                    
+                    {/* Decision overlays */}
+                    {index === 0 && (
+                      <>
+                        <div className={`absolute top-4 ${direction === 'rtl' ? 'right-4' : 'left-4'} px-3 py-1 border-2 rounded text-sm font-bold transition-opacity ${dragDirection === 'right' ? 'opacity-100 border-primary text-primary' : 'opacity-0'}`}>
+                          אהבתי
+                        </div>
+                        <div className={`absolute top-4 ${direction === 'rtl' ? 'left-4' : 'right-4'} px-3 py-1 border-2 rounded text-sm font-bold transition-opacity ${dragDirection === 'left' ? 'opacity-100 border-destructive text-destructive' : 'opacity-0'}`}>
+                          דלג
+                        </div>
+                      </>
                     )}
                     
                     {/* Badges */}
@@ -380,22 +418,24 @@ export const TinderView = ({ listings, onBack, onContactSeller }: TinderViewProp
       </div>
 
       {/* Action Buttons - Fixed at bottom with safe area */}
-      <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 flex gap-6 z-50">
-        <Button
-          size="lg"
-          className="w-16 h-16 rounded-full bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 shadow-lg"
-          onClick={handleSwipeRight}
-        >
-          <Heart className="w-8 h-8" />
-        </Button>
-        
+      <div className="fixed bottom-20 left-1/2 transform -translate-x-1/2 z-50 flex w-[220px] justify-between">
         <Button
           size="lg"
           variant="outline"
           className="w-16 h-16 rounded-full border-2 border-red-500 text-red-500 hover:bg-red-50 shadow-lg bg-white"
           onClick={handleSwipeLeft}
+          aria-label="דלג"
         >
           <X className="w-8 h-8" />
+        </Button>
+        
+        <Button
+          size="lg"
+          className="w-16 h-16 rounded-full bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 shadow-lg"
+          onClick={handleSwipeRight}
+          aria-label="אהבתי"
+        >
+          <Heart className="w-8 h-8" />
         </Button>
       </div>
 
